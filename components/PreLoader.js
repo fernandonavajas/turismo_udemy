@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import  { ActivityIndicator, View, StyleSheet, Dimensions } from 'react-native';
 
-const { width } = Dimensions.get('window');
+//const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
 
 export default class PreLoader extends Component {
     render() { 
         return ( 
             <View style={[styles.preloader]}>
-                <ActivityIndicator style={{height:80}} size="large"></ActivityIndicator>
+                <ActivityIndicator style={{height:80}} size="large"/>
             </View>
          );
     }

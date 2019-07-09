@@ -5,8 +5,8 @@ import { Dimensions } from 'react-native';
 
 export default class AppButton extends Component {
     render() {
-        const { action, iconName, iconColor, title, bgColor } = this.props;
-        const { width } = Dimensions.get('window');
+        const { action, iconName, iconColor, title, bgColor, setWidth } = this.props;
+        const { width } = setWidth ? Dimensions.get('window'): {};
         return (
             <Button
                 onPress={action}
@@ -25,7 +25,6 @@ export default class AppButton extends Component {
                         name={iconName}
                         size={15}
                         color={iconColor}
-                        margin={10}
                     />
                 }
                 text={title}

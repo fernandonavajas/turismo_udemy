@@ -5,7 +5,7 @@ import { StyleSheet, FlatList } from 'react-native';
 import { ListItem, Text } from "react-native-elements";
 import *  as firebase from 'firebase'
 import { NavigationActions } from 'react-navigation';
-import SnapshotState from 'jest-snapshot/build/State';
+import TurismoAddButton from '../../components/turismo/TurismoAddButton';
 
 export default class Paseos extends Component {
     constructor(props) {
@@ -17,6 +17,26 @@ export default class Paseos extends Component {
         };
         this.refPaseos = firebase.database().ref().child('paseos')
     }
+    
+    componentDidMount() {
+        this.refPaseos.on('value', snapshot => {
+            let paseos = [];
+            snapshot.forEach(row => {
+                paseos.push({
+                    id: row.key,
+                    nombre: row.val().nombre,
+                    direccion: row.val().direccion,
+                    capacidad: row.val().capacidad,
+                    description: row.val().descripcion
+                })
+            });
+            this.setState({
+                paseos,
+                loaded: true
+            });
+        })
+    };
+    
     addPaseo() {
         const navigateAction = NavigationActions.navigate({
             routeName: 'addPaseos'
@@ -38,29 +58,11 @@ export default class Paseos extends Component {
                 title={`${paseo.nombre} (Capacidad:${paseo.capacidad})`}
                 avatar={this.state.paseo_logo}
                 onPress={() => this.paseosDetail(paseo)}
-                rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styleMedia.listIconStyle }}
+                rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
             />
         )
     }
-    componentDidMount() {
-        this.refPaseos.on('value', snapshop => {
-            let Paseos = [];
-            SnapshotState.forEach(row => {
-                paseos.push({
-                    id: row.key,
-                    nombre: row.val().nombre,
-                    direccion: row.val().direccion,
-                    capacidad: row.val().capacidad,
-                    description: row.val().descripcion
-                })
-            })
-            this.setState({
-                paseos,
-                loaded: true
-            });
-        })
-    };
-    
+
     render() {
         const { loaded, paseos } = this.state;
 
@@ -70,7 +72,6 @@ export default class Paseos extends Component {
         if (!paseos.length) {
             return (
                 <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
-
                     <Text>no hay paseos disponibles</Text>
                     <TurismoAddButton addTurismo={this.addPaseo.bind(this)} />
                 </BackgroundImage>

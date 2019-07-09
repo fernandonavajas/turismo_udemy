@@ -20,7 +20,6 @@ export default class HomeScreen extends Component {
     });
     this.props.navigation.dispatch(navigateAction);
   }
-
   render() {
     return (
       <BackgroundImage source={require('../assets/images/fondo2.jpg')}>

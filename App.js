@@ -1,12 +1,16 @@
 import React from 'react';
 import PreLoader from './components/PreLoader';
-
 import firebaseConfig from './utils/firebase';
 import *  as firebase from 'firebase';
 firebase.initializeApp(firebaseConfig);
 
+import { Text } from 'react-native-elements';
+import AppButton from './components/AppButton';
 import GuestNavigation from './navigation/guest';
 import LoggedNavigation from './navigation/logged';
+
+console.disableYellowBox= true;
+
 export default class App extends React.Component {
   constructor() {
     super();
@@ -21,7 +25,7 @@ export default class App extends React.Component {
       if (user !== null) {
 
         this.setState({
-          isLogged: true  ,//este cambia la vista
+          isLogged: true,//este cambia la vista
           loaded: true
         });
       } else {
@@ -40,13 +44,12 @@ export default class App extends React.Component {
       return (<PreLoader />)
     }
     if (isLogged) {
-      return (<LoggedNavigation/>)
+      return (<GuestNavigation/>)
     } else { // si no esta loggeado que abra la navegacion del guest
-      return ( 
-        <GuestNavigation />
+      return (
+        <LoggedNavigation/>
       );
     }
-
   }
 }
 

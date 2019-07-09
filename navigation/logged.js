@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PaseosScreen from "../screens/Paseos/Paseos";
-import { DrawerNavigator, StackNavigator } from "react-navigation";
+import { createDrawerNavigator, createStackNavigator, createAppContainer } from "react-navigation";
 import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 
 
@@ -25,7 +26,7 @@ const leftIcon = (navigation, icon) => <Icon
     style={{ marginLeft: 20 }}
     size={20}
     color="white"
-    onPress={() => navigation.navigate('DrawerOpen')}
+    onPress={() => navigation.openDrawer()}
 />;
 
 const rightIcon = (navigation, icon) => <Icon
@@ -36,36 +37,41 @@ const rightIcon = (navigation, icon) => <Icon
     onPress={() => navigation.navigate('ListPaseos')}
 />;
 
-const paseosScreenStack = StackNavigator(
+const paseosScreenStack = createStackNavigator(
     {
-        ListPaseos:{
+        ListPaseos: {
             screen: PaseosScreen,
-            navigationOptions:({navigation})=> ({
+            navigationOptions: ({ navigation }) => ({
+                ...navigationOptions,
                 title: 'Salidas',
-                drawerIcon:({tintColor})=>(<Icon name="home" size={24} style={{color:tintColor}}/>),
-                headerLeft:leftIcon(navigate,'bars')
+                headerLeft: leftIcon(navigation, 'bars')
             })
         }
     },
     navigationOptions
 )
 
-
-export default DrawerNavigator(
+const RootStack = createDrawerNavigator(
     {
-        PaseosScreen:{
-            screen:paseosScreenStack
+        PaseosScreen: {
+            screen: paseosScreenStack,
+            navigationOptions: ({ navigation }) => ({
+                drawerLabel: 'Valoraciones',
+                drawerIcon:({tintColor}) => (<Icon name="home" size={30} style={{color: tintColor}}/>),
+            })
         }
     },
     {
-        drawerBackgroundColor:'rgba(128,35,60, 0.7)',
-        contentOptions:{
-            activeTintColor:'white',
+        drawerBackgroundColor: 'rgba(128,35,60, 0.7)',
+        contentOptions: {
+            activeTintColor: 'white',
             activeBackgroundColor: 'transparent',
             inactiveTintColor: 'white',
-            itemsContainerStyle:{
-                marginVertical:0,
+            itemsContainerStyle: {
+                marginVertical: 0,
             }
         },
+        defaultNavigationOptions:navigationOptions
     }
 )
+export default createAppContainer(RootStack)
