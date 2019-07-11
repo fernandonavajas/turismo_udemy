@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import PaseosScreen from "../screens/Paseos/Paseos";
 import { createDrawerNavigator, createStackNavigator, createAppContainer } from "react-navigation";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import TursScreen from "../screens/Turs/Turs";
+import addTurScreen from '../screens/Turs/addTur';
+import LogoutScreen from "../screens/Logout";
+import DetailTurScreen from '../screens/Turs/DetailTur'
 
 
 
 const navigationOptions = {
-    navigationOptions: {
+    defaultNavigationOptions: {
         headerStyle: {
             backgroundColor: 'red'
         },
@@ -16,7 +19,8 @@ const navigationOptions = {
             alignSelf: 'center',
             fontSize: 20,
             color: '#fff',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            //flex: 1
         }
     }
 };
@@ -34,30 +38,60 @@ const rightIcon = (navigation, icon) => <Icon
     style={{ marginLeft: 20 }}
     size={30}
     color="white"
-    onPress={() => navigation.navigate('ListPaseos')}
+    onPress={() => navigation.navigate('ListTurs')}
 />;
 
-const paseosScreenStack = createStackNavigator(
-    {
-        ListPaseos: {
-            screen: PaseosScreen,
-            navigationOptions: ({ navigation }) => ({
-                ...navigationOptions,
-                title: 'Salidas',
-                headerLeft: leftIcon(navigation, 'bars')
-            })
-        }
+const tursScreenStack = createStackNavigator({
+    ListTurs: {
+        screen: TursScreen,
+        navigationOptions: ({ navigation }) => ({
+            ...navigationOptions,
+            title: 'Turs',
+            headerLeft: leftIcon(navigation, 'bars')
+        })
     },
+    addTur: {
+        screen: addTurScreen,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Añadir Tur',
+            headerRight: rightIcon(navigation, 'home'),
+            headerLeft: leftIcon(navigation, 'bars')
+        })
+    },
+    DetailTur: {
+        screen: DetailTurScreen,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Detalles del Tur',
+            headerRight: rightIcon(navigation, 'home'),
+            headerLeft: leftIcon(navigation, 'bars')
+        })
+    }
+},
     navigationOptions
 )
+const logoutScreenStack = createStackNavigator({
+    LogoutScreen: {
+        screen: LogoutScreen,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Cerrar sesión'
+        })
+    }
+});
 
 const RootStack = createDrawerNavigator(
     {
-        PaseosScreen: {
-            screen: paseosScreenStack,
+        TursScreen: {
+            screen: tursScreenStack,
             navigationOptions: ({ navigation }) => ({
-                drawerLabel: 'Valoraciones',
-                drawerIcon:({tintColor}) => (<Icon name="home" size={30} style={{color: tintColor}}/>),
+                drawerLabel: 'Lista de Turs',
+                drawerIcon: ({ tintColor }) => (<Icon name="home" size={30} style={{ color: tintColor }} />),
+            })
+        },
+        LogoutScreen: {
+            screen: logoutScreenStack,
+            navigationOptions: ({ navigation }) => ({
+                drawerLabel: 'Cerrar sesión',
+                drawerIcon: ({ tintColor }) => (<Icon name="sign-out" size={30} style={{ color: tintColor }} />),
             })
         }
     },
@@ -71,7 +105,7 @@ const RootStack = createDrawerNavigator(
                 marginVertical: 0,
             }
         },
-        defaultNavigationOptions:navigationOptions
+        defaultNavigationOptions: navigationOptions
     }
 )
 export default createAppContainer(RootStack)

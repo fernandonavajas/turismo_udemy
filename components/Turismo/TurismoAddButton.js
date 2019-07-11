@@ -11,7 +11,7 @@ export default class  TurismoAddButton extends Component {
             <View style={styles.buttonContainer}>
                 <AppButton
                      bgColor="blue"
-                     title="Añadir paseo  "
+                     title="Añadir tur  "
                      action={addTurismo}
                      iconName="plus"
                      iconColor="#fff"

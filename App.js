@@ -3,13 +3,10 @@ import PreLoader from './components/PreLoader';
 import firebaseConfig from './utils/firebase';
 import *  as firebase from 'firebase';
 firebase.initializeApp(firebaseConfig);
-
-import { Text } from 'react-native-elements';
-import AppButton from './components/AppButton';
 import GuestNavigation from './navigation/guest';
 import LoggedNavigation from './navigation/logged';
 
-console.disableYellowBox= true;
+console.disableYellowBox = true;
 
 export default class App extends React.Component {
   constructor() {
@@ -44,10 +41,10 @@ export default class App extends React.Component {
       return (<PreLoader />)
     }
     if (isLogged) {
-      return (<GuestNavigation/>)
+      return (<LoggedNavigation />)
     } else { // si no esta loggeado que abra la navegacion del guest
       return (
-        <LoggedNavigation/>
+        <GuestNavigation />
       );
     }
   }

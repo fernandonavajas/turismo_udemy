@@ -5,75 +5,81 @@ import { StyleSheet, FlatList } from 'react-native';
 import { ListItem, Text } from "react-native-elements";
 import *  as firebase from 'firebase'
 import { NavigationActions } from 'react-navigation';
-import TurismoAddButton from '../../components/turismo/TurismoAddButton';
+import TurismoAddButton from '../../components/Turismo/TurismoAddButton';
 
-export default class Paseos extends Component {
+export default class Turs extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            paseos: [],
+            turs: [],
             loaded: false,
-            paseo_logo: require('../../assets/images/robot-prod.png')
+            tur_logo: require('../../assets/images/robot-prod.png')
         };
-        this.refPaseos = firebase.database().ref().child('paseos')
+        this.refTurs = firebase.database().ref().child('turs')
     }
-    
+
     componentDidMount() {
-        this.refPaseos.on('value', snapshot => {
-            let paseos = [];
+        this.refTurs.on('value', snapshot => {
+            let turs = [];
             snapshot.forEach(row => {
-                paseos.push({
+                turs.push({
                     id: row.key,
-                    nombre: row.val().nombre,
-                    direccion: row.val().direccion,
-                    capacidad: row.val().capacidad,
-                    description: row.val().descripcion
+                    name: row.val().name,
+                    address: row.val().address,
+                    capacity: row.val().capacity,
+                    description: row.val().description
                 })
             });
             this.setState({
-                paseos,
+                turs,
                 loaded: true
             });
         })
     };
-    
-    addPaseo() {
+
+    addTur() {
         const navigateAction = NavigationActions.navigate({
-            routeName: 'addPaseos'
+            routeName: 'addTurs'
         });
         this.props.navigation.dispatch(navigateAction);
 
     }
 
-    paseosDetail(paseo) {
+    tursDetail(tur) {
+        const navigateAction = NavigationActions.navigate({
+            routeName: 'DetailTur',
+            params: {tur: tur}
+        });
+        this.props.navigation.dispatch(navigateAction);
+
 
     }
 
-    renderPaseos(paseo) {
+    renderTurs(tur) {
         return (
             <ListItem
                 containerStyle={styles.item}
                 titleStyle={styles.title}
                 roundAvatar
-                title={`${paseo.nombre} (Capacidad:${paseo.capacidad})`}
-                avatar={this.state.paseo_logo}
-                onPress={() => this.paseosDetail(paseo)}
+                title={`${tur.name} (Capacidad:${tur.capacity})`}
+                leftAvatar={{ source: this.state.tur_logo }}
+                onPress={() => this.tursDetail(tur)}
                 rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
             />
         )
     }
 
     render() {
-        const { loaded, paseos } = this.state;
+        const { loaded, turs } = this.state;
 
         if (!loaded) {
             return <PreLoader />
         };
-        if (!paseos.length) {
+        if (!turs.length) {
             return (
                 <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
-                    <Text>no hay paseos disponibles</Text>
-                    <TurismoAddButton addTurismo={this.addPaseo.bind(this)} />
+                    <Text>no hay turs disponibles</Text>
+                    <TurismoAddButton addTurismo={this.addTur.bind(this)} />
                 </BackgroundImage>
             )
         }
@@ -81,10 +87,10 @@ export default class Paseos extends Component {
             <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
 
                 <FlatList
-                    data={paseos}
-                    renderItem={(data) => this.renderPaseos(data.item)}
+                    data={turs}
+                    renderItem={(data) => this.renderTurs(data.item)}
                 />
-                <TurismoAddButton addTurismo={this.addPaseo.bind(this)} />
+                <TurismoAddButton addTurismo={this.addTur.bind(this)} />
             </BackgroundImage>
         );
     }
@@ -96,7 +102,7 @@ const styles = StyleSheet.create({
     },
     listIconStyle: {
         marginRight: 10,
-        fontSize: 15,
+        fontSize: 40,
         color: 'rgba(255,38,74, 0.6)'
     },
     item: {
