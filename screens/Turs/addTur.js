@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BackgroundImage from '../../components/BackgroundImage';
 import AppButton from '../../components/AppButton';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import *  as firebase from 'firebase';
 import { options, Tur } from '../../forms/tur';
 import t from 'tcomb-form-native';
@@ -17,25 +17,26 @@ export default class addTur extends Component {
         this.state = {
             tur: {
                 name: '',
-                address: '',
-                capacity: 0,
+                lastname: '',
+                price: '',
                 description: '',
+                duration: ''
             }
         };
     }
 
-    save () {
-		const validate = this.refs.form.getValue();
-		if(validate) {
-			let data = {};
-			const key = firebase.database().ref().child('turs').push().key;
-			data[`turs/${key}`] = this.state.tur;
-			firebase.database().ref().update(data).then(() => {
-				Toast.showWithGravity('Solicitud enviada con exito', Toast.LONG, Toast.BOTTOM);
-				this.props.navigation.navigate('ListTurs');
-			});
-		}
-	}
+    save() {
+        const validate = this.refs.form.getValue();
+        if (validate) {
+            let data = {};
+            const key = firebase.database().ref().child('turs').push().key;
+            data[`turs/${key}`] = this.state.tur;
+            firebase.database().ref().update(data).then(() => {
+                Toast.showWithGravity('Solicitud enviada con exito', Toast.LONG, Toast.BOTTOM);
+                this.props.navigation.navigate('ListTurs');
+            });
+        }
+    }
 
     onChange(tur) {
         this.setState({ tur });
@@ -45,7 +46,7 @@ export default class addTur extends Component {
         const { tur } = this.state;
         return (
             <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
-                <View style={styles.container}>
+                <ScrollView style={styles.container}>
                     <Card title="Formulario de Turs">
                         <View>
                             <Form
@@ -58,14 +59,14 @@ export default class addTur extends Component {
                         </View>
                         <AppButton
                             bgColor="rgba(255, 38, 74, 0.9)"
-                            title="Dar de alta  "
+                            title="Agregar  "
                             action={this.save.bind(this)}
                             iconName="plus"
                             iconSize={30}
                             iconColor="#fff"
                         />
                     </Card>
-                </View>
+                </ScrollView>
             </BackgroundImage>
         );
     }

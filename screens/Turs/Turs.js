@@ -7,11 +7,13 @@ import *  as firebase from 'firebase'
 import { NavigationActions } from 'react-navigation';
 import TurismoAddButton from '../../components/Turismo/TurismoAddButton';
 
+
 export default class Turs extends Component {
     constructor(props) {
         super(props);
         this.state = {
             turs: [],
+            categorias: [],
             loaded: false,
             tur_logo: require('../../assets/images/robot-prod.png')
         };
@@ -21,17 +23,21 @@ export default class Turs extends Component {
     componentDidMount() {
         this.refTurs.on('value', snapshot => {
             let turs = [];
+            let categorias = [];
             snapshot.forEach(row => {
                 turs.push({
                     id: row.key,
                     name: row.val().name,
-                    address: row.val().address,
-                    capacity: row.val().capacity,
-                    description: row.val().description
+                    lastname: row.val().lastname,
+                    price: row.val().price,
+                    description: row.val().description,
+                    duration: row.val().duration
                 })
             });
+            categorias = [... new Set(turs.map(x => x.name))]; // categorias distintas
             this.setState({
                 turs,
+                categorias,
                 loaded: true
             });
         })
@@ -39,38 +45,53 @@ export default class Turs extends Component {
 
     addTur() {
         const navigateAction = NavigationActions.navigate({
-            routeName: 'addTurs'
+            routeName: 'AddTur'
         });
         this.props.navigation.dispatch(navigateAction);
 
     }
 
-    tursDetail(tur) {
+    tursDetail(categoria) {
+        let turFilter = []
+        this.state.turs.forEach(row => {
+            if (row.name == categoria) {
+                turFilter.push({
+                    id: row.key,
+                    name: row.name,
+                    lastname: row.lastname,
+                    price: row.price,
+                    description: row.description,
+                    duration: row.duration
+                })
+            }
+        });
+        console.log(turFilter);
         const navigateAction = NavigationActions.navigate({
             routeName: 'DetailTur',
-            params: {tur: tur}
+            params: { tur: tur }
         });
         this.props.navigation.dispatch(navigateAction);
 
 
+
     }
 
-    renderTurs(tur) {
+    renderTurs(categoria) {
         return (
             <ListItem
                 containerStyle={styles.item}
                 titleStyle={styles.title}
                 roundAvatar
-                title={`${tur.name} (Capacidad:${tur.capacity})`}
+                title={`${categoria} `}//(Capacidad:${tur.capacity})`}
                 leftAvatar={{ source: this.state.tur_logo }}
-                onPress={() => this.tursDetail(tur)}
+                onPress={() => this.tursDetail(categoria)}
                 rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
             />
         )
     }
 
     render() {
-        const { loaded, turs } = this.state;
+        const { loaded, turs, categorias } = this.state;
 
         if (!loaded) {
             return <PreLoader />
@@ -87,7 +108,7 @@ export default class Turs extends Component {
             <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
 
                 <FlatList
-                    data={turs}
+                    data={categorias}
                     renderItem={(data) => this.renderTurs(data.item)}
                 />
                 <TurismoAddButton addTurismo={this.addTur.bind(this)} />
@@ -98,16 +119,20 @@ export default class Turs extends Component {
 
 const styles = StyleSheet.create({
     title: {
-        color: '#fff'
+        color: '#fff',
+        textAlign: 'center'
     },
     listIconStyle: {
-        marginRight: 10,
+        //marginRight: 10,
         fontSize: 40,
-        color: 'rgba(255,38,74, 0.6)'
+        color: 'rgba(255,38,74, 0.6)',
+
     },
     item: {
-        padding: 0,
-        backgroundColor: 'rgba(206, 206, 206, 0.6)'
+        height: 100,
+        margin: 5,
+        padding: 10,
+        backgroundColor: 'rgba(63, 191, 191, 0.3)'
     }
 });
 

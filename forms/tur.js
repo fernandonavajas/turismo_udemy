@@ -4,35 +4,30 @@ const Form = t.form.Form;
 
 
 export const Tur = t.struct({
-    name:t.String,
-    address: t.String,
-    capacity: t.Number,
-    descripcion: t.String
-    
+	name: t.String,
+	lastname: t.String,
+	price: t.Number,
+	description: t.String,
+	duration: t.String
 });
-
 export const options = {
 	fields: {
 		name: {
-			label: 'Nombre (*)',
-			placeholder: 'Nombre'
+			label: 'Tipo Tour',
+			placeholder: 'Categoría'
 		},
-		address: {
-			label: 'Dirección (*)',
-			placeholder: 'Dirección'
+		lastname: {
+			label: 'Tour Especifico',
+			placeholder: 'Lugar'
 		},
-		capacity: {
-			label: 'Capacidad',
-			help: 'Capacidad en personas',
-			config: {
-				step: 1,
-				min: 1,
-				max: 100
-			}
+		price: {
+			label: 'Precio',
+			placeholder: '30000'
+
 		},
 		description: {
-			label: 'Descripción (*)',
-			placeholder: 'Descripción',
+			label: 'Descripción',
+			placeholder: 'Aquí la descripción',
 			multiline: true,
 			stylesheet: {
 				...Form.stylesheet,
@@ -48,7 +43,10 @@ export const options = {
 					}
 				}
 			}
+		},
+		duration: {
+			label:'Duración',
+			placeholder:'5 Horas 30 Minutos'
 		}
 	}
 };
-

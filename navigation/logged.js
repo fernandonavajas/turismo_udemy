@@ -35,8 +35,8 @@ const leftIcon = (navigation, icon) => <Icon
 
 const rightIcon = (navigation, icon) => <Icon
     name={icon}
-    style={{ marginLeft: 20 }}
-    size={30}
+    style={{ marginRight: 20 }}
+    size={25}
     color="white"
     onPress={() => navigation.navigate('ListTurs')}
 />;
@@ -50,7 +50,7 @@ const tursScreenStack = createStackNavigator({
             headerLeft: leftIcon(navigation, 'bars')
         })
     },
-    addTur: {
+    AddTur: {
         screen: addTurScreen,
         navigationOptions: ({ navigation }) => ({
             title: 'Añadir Tur',

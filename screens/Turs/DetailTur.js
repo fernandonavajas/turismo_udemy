@@ -15,10 +15,17 @@ export default class  DetailTur extends Component {
         };
     }
     editTur(){
-
+        const navigateAction = NavigationActions.navigate({
+			routeName: 'EditTur',
+			params: {tur: this.state.tur}
+		});
+		this.props.navigation.dispatch(navigateAction);
     }
     goHome(){
-
+        const navigateAction = NavigationActions.navigate({
+			routeName: 'ListTurs',
+		});
+		this.props.navigation.dispatch(navigateAction);
     }
 
     render() { 
