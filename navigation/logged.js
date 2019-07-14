@@ -5,7 +5,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import TursScreen from "../screens/Turs/Turs";
 import addTurScreen from '../screens/Turs/addTur';
 import LogoutScreen from "../screens/Logout";
-import DetailTurScreen from '../screens/Turs/DetailTur'
+import DetailTurScreen from '../screens/Turs/DetailTur';
+import TurEspecificoScreen from '../screens/Turs/turEspecifico';
+import AddRegistroScreen from '../screens/Turs/AddRegistro';
 
 
 
@@ -65,7 +67,25 @@ const tursScreenStack = createStackNavigator({
             headerRight: rightIcon(navigation, 'home'),
             headerLeft: leftIcon(navigation, 'bars')
         })
+    },
+    TurEspecifico: {
+        screen: TurEspecificoScreen,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Turs disponibles',
+            headerRight: rightIcon(navigation, 'home'),
+            headerLeft: leftIcon(navigation, 'bars')
+        })
+    },
+    RegistroUsuario:{
+        screen: AddRegistroScreen,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Solicitar Tour',
+            headerRight: rightIcon(navigation, 'home'),
+            headerLeft: leftIcon(navigation, 'bars')
+        })
+        
     }
+    
 },
     navigationOptions
 )

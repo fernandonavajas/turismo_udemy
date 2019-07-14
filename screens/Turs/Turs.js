@@ -51,7 +51,7 @@ export default class Turs extends Component {
 
     }
 
-    tursDetail(categoria) {
+    listarTursEspecificos(categoria) {
         let turFilter = []
         this.state.turs.forEach(row => {
             if (row.name == categoria) {
@@ -65,10 +65,10 @@ export default class Turs extends Component {
                 })
             }
         });
-        console.log(turFilter);
+        console.log(turFilter); // esto muestra el json con los turs especificos
         const navigateAction = NavigationActions.navigate({
-            routeName: 'DetailTur',
-            params: { tur: tur }
+            routeName: 'TurEspecifico',//DetailTur
+            params: { turFilter: turFilter }
         });
         this.props.navigation.dispatch(navigateAction);
 
@@ -84,7 +84,7 @@ export default class Turs extends Component {
                 roundAvatar
                 title={`${categoria} `}//(Capacidad:${tur.capacity})`}
                 leftAvatar={{ source: this.state.tur_logo }}
-                onPress={() => this.tursDetail(categoria)}
+                onPress={() => this.listarTursEspecificos(categoria)}
                 rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
             />
         )
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     },
     item: {
         height: 100,
-        margin: 5,
+        margin: 3,
         padding: 10,
         backgroundColor: 'rgba(63, 191, 191, 0.3)'
     }

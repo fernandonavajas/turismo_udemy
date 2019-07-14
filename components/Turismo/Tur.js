@@ -7,17 +7,23 @@ import TurRating from './TurRating';
 
 export default class Tur extends Component {
     render() {
-        const { editTur, goHome, tur } = this.props;
+        const { goRegistrar, goHome, tur } = this.props;
         return (
             <Card
-                title={tur.name}
-                image={require('../../assets/images/robot-dev.png')}
+                title={tur.lastname}
+                image={require('../../assets/images/cordilleraLarge.jpeg')}
             >
                 <TurRating turId={tur.id} />
                 <Text style={{ marginBottom: 15, marginTop: 10 }}>
                     {tur.description}
                 </Text>
-
+                <AppButton
+                    bgColor="green"
+                    title="Solicitar "
+                    action={goRegistrar}
+                    iconName="map-signs"
+                    iconColor="#fff"
+                />
                 <AppButton
                     bgColor="grey"
                     title="Volver "
@@ -25,6 +31,7 @@ export default class Tur extends Component {
                     iconName="arrow-left"
                     iconColor="#fff"
                 />
+
             </Card>
         )
     }

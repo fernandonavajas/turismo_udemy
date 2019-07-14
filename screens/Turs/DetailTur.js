@@ -14,16 +14,16 @@ export default class  DetailTur extends Component {
             tur: params.tur
         };
     }
-    editTur(){
+    goRegistrar(){
         const navigateAction = NavigationActions.navigate({
-			routeName: 'EditTur',
+			routeName: 'RegistroUsuario',
 			params: {tur: this.state.tur}
 		});
 		this.props.navigation.dispatch(navigateAction);
     }
     goHome(){
         const navigateAction = NavigationActions.navigate({
-			routeName: 'ListTurs',
+			routeName: 'TurEspecifico',
 		});
 		this.props.navigation.dispatch(navigateAction);
     }
@@ -35,7 +35,7 @@ export default class  DetailTur extends Component {
                 <ScrollView>
                     <Tur
                         goHome={this.goHome.bind(this)}
-                        editTur={this.editTur.bind(this)}
+                        goRegistrar={this.goRegistrar.bind(this)}
                         tur={tur}
                     />
                 </ScrollView>

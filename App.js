@@ -5,6 +5,8 @@ import *  as firebase from 'firebase';
 firebase.initializeApp(firebaseConfig);
 import GuestNavigation from './navigation/guest';
 import LoggedNavigation from './navigation/logged';
+import moment from "moment";
+moment.locale('es');
 
 console.disableYellowBox = true;
 
