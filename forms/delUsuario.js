@@ -5,14 +5,15 @@ import moment from 'moment/src/moment';
 moment.locale('es');
 //Form.stylesheet.dateValue.normal.backgroundColor= 'red';
 
-var Privado = t.enums({
-    P: 'Privado',
-    C: 'Compartido'
+var Idioma = t.enums({
+    E: 'Español',
+    P: 'Portugués',
+    I: 'Inglés'
 });
 
 var TipoPago = t.enums({
     E: 'Efectivo',
-    CD: 'Credito / Debito'
+    CD: 'Credito / Débito'
 
 })
 export const RegistroUsuario = t.struct({
@@ -22,33 +23,35 @@ export const RegistroUsuario = t.struct({
     name: t.String,
     phone: t.Number,
     cantidad: t.Number,
-    idioma: t.String,
-    privado: Privado,
+    idioma: Idioma,
+    privado: t.Boolean,
     tipoPago: TipoPago,
     precio: t.Number,
     comentario: t.maybe(t.String),
 
 });
 export const options = {
-    order:['categoria','lugar','fecha','name','phone','cantidad','idioma','privado','tipoPago','precio','comentario'],
+    order: ['categoria', 'lugar', 'fecha', 'name', 'phone', 'cantidad', 'idioma', 'privado', 'tipoPago', 'precio', 'comentario'],
     fields: {
         categoria: {
             label: 'Tipo Tour',
-            placeholder: 'Categoría'
+            placeholder: 'Categoría',
+            editable: false
         },
         lugar: {
-            label: 'Tour Especifico',
-            placeholder: 'Lugar'
+            label: 'Tour Específico',
+            placeholder: 'Lugar',
+            editable: false
         },
         fecha: {
             label: 'Fecha de salida',
             mode: 'date',
-            config:{
-                format: (date) => moment(date).format(' DD-MM-YYYY')//'dddd DD-MM-YYYY'
-            },
-            defaultValueText: new Date(),
             initialDate: new Date(),
             minimumDate: new Date(),
+            config: {
+                defaultValueText: 'selecciona la fecha',
+                format: (date) => moment(date).format(' DD-MM-YYYY')//'dddd DD-MM-YYYY'
+            },
             stylesheet: {
                 ...Form.stylesheet,
                 dateValue: {
@@ -70,30 +73,96 @@ export const options = {
         },
         name: {
             label: 'Nombre',
-            placeholder: 'Hector Carrasco'
+            placeholder: 'Nombre del encargado'
         },
         phone: {
-            label: 'Telefono',
-            placeholder: '979692718'
+            label: 'Teléfono',
+            placeholder: 'Teléfono del encargado'
         },
         cantidad: {
             label: 'N° de personas',
-            placeholder: '3'
+            placeholder: '¿Cuantas personas van?'
         },
-        
+
         idioma: {
             label: 'Idioma',
             placeholder: 'Español'
         },
         tipoPago: {
-            label: 'Tipo pago'
+            label: 'Tipo pago',
         },
         privado: {
-            label:'Privado o compartido'
+            label: 'Privado ',
+            tintColor: 'red',
+            stylesheet: {
+                ...Form.stylesheet,
+                formGroup: {
+                    ...Form.stylesheet.formGroup,
+                    normal: {
+                        ...Form.stylesheet.formGroup.normal,
+                        flexDirection: 'row',
+
+                    },
+                    error: {
+                        ...Form.stylesheet.formGroup.error,
+                        flexDirection: 'row',
+                    }
+                },
+            },
         },
         precio: {
-            label: 'Precio Total',
-            editable: false
+            label: 'Precio Total:',
+            editable: false,
+            stylesheet: {
+                ...Form.stylesheet,
+                formGroup: {
+                    ...Form.stylesheet.formGroup,
+                    normal: {
+                        ...Form.stylesheet.formGroup.normal,
+                        flexDirection: 'row',
+
+                    },
+                    error: {
+                        ...Form.stylesheet.formGroup.error,
+                        flexDirection: 'row',
+                    }
+                },
+                controlLabel: {
+                    ...Form.stylesheet.controlLabel,
+                    normal: {
+                        ...Form.stylesheet.controlLabel.normal,
+                        marginBottom: 2,
+                        marginRight: 20,
+                        color: "green",
+                        fontWeight: 'bold',
+                    },
+                    error: {
+                        ...Form.stylesheet.controlLabel.error,
+                        marginBottom: 2,
+                        marginRight: 20,
+                        color: "green"
+                    }
+                },
+                textbox: {
+                    ...Form.stylesheet.textbox,
+                    normal: {
+                        ...Form.stylesheet.textbox.normal,
+                    },
+                    error: {
+                        ...Form.stylesheet.textbox.error,
+                    },
+                    notEditable: {
+                        ...Form.stylesheet.textbox.notEditable,
+                        borderWidth: 0,
+                        borderBottomWidth: 1,
+                        borderColor: 'green',
+                        backgroundColor: '#fff',
+                        color: 'green',
+                        fontWeight: 'bold',
+                        fontSize: 20,
+                    }
+                }
+            }
         },
         comentario: {
             label: 'Comentario adicional',

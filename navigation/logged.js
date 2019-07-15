@@ -8,13 +8,13 @@ import LogoutScreen from "../screens/Logout";
 import DetailTurScreen from '../screens/Turs/DetailTur';
 import TurEspecificoScreen from '../screens/Turs/turEspecifico';
 import AddRegistroScreen from '../screens/Turs/AddRegistro';
-
-
+import HistorialScreen from '../screens/Turs/Historial'
 
 const navigationOptions = {
+    
     defaultNavigationOptions: {
         headerStyle: {
-            backgroundColor: 'red'
+            backgroundColor: 'rgba(223,62,62,1)'
         },
         headerTitleStyle: {
             textAlign: 'center',
@@ -29,7 +29,7 @@ const navigationOptions = {
 
 const leftIcon = (navigation, icon) => <Icon
     name={icon}
-    style={{ marginLeft: 20 }}
+    style={{ marginLeft: 15 }}
     size={20}
     color="white"
     onPress={() => navigation.openDrawer()}
@@ -37,7 +37,7 @@ const leftIcon = (navigation, icon) => <Icon
 
 const rightIcon = (navigation, icon) => <Icon
     name={icon}
-    style={{ marginRight: 20 }}
+    style={{ marginRight: 15 }}
     size={25}
     color="white"
     onPress={() => navigation.navigate('ListTurs')}
@@ -48,14 +48,14 @@ const tursScreenStack = createStackNavigator({
         screen: TursScreen,
         navigationOptions: ({ navigation }) => ({
             ...navigationOptions,
-            title: 'Turs',
+            title: 'Tours',
             headerLeft: leftIcon(navigation, 'bars')
         })
     },
     AddTur: {
         screen: addTurScreen,
         navigationOptions: ({ navigation }) => ({
-            title: 'Añadir Tur',
+            title: 'Añadir Tour',
             headerRight: rightIcon(navigation, 'home'),
             headerLeft: leftIcon(navigation, 'bars')
         })
@@ -63,7 +63,7 @@ const tursScreenStack = createStackNavigator({
     DetailTur: {
         screen: DetailTurScreen,
         navigationOptions: ({ navigation }) => ({
-            title: 'Detalles del Tur',
+            title: 'Detalles del Tour',
             headerRight: rightIcon(navigation, 'home'),
             headerLeft: leftIcon(navigation, 'bars')
         })
@@ -71,24 +71,24 @@ const tursScreenStack = createStackNavigator({
     TurEspecifico: {
         screen: TurEspecificoScreen,
         navigationOptions: ({ navigation }) => ({
-            title: 'Turs disponibles',
+            title: 'Tours disponibles',
             headerRight: rightIcon(navigation, 'home'),
             headerLeft: leftIcon(navigation, 'bars')
         })
     },
-    RegistroUsuario:{
+    RegistroUsuario: {
         screen: AddRegistroScreen,
         navigationOptions: ({ navigation }) => ({
             title: 'Solicitar Tour',
             headerRight: rightIcon(navigation, 'home'),
             headerLeft: leftIcon(navigation, 'bars')
         })
-        
+
     }
-    
+
 },
     navigationOptions
-)
+);
 const logoutScreenStack = createStackNavigator({
     LogoutScreen: {
         screen: LogoutScreen,
@@ -96,15 +96,37 @@ const logoutScreenStack = createStackNavigator({
             title: 'Cerrar sesión'
         })
     }
-});
+}
+);
+
+const historialScreenStack = createStackNavigator({
+    HistorialScreen: {
+        screen: HistorialScreen,
+        navigationOptions: ({ navigation }) => ({
+            ...navigationOptions,
+            title: 'Historial',
+            headerLeft: leftIcon(navigation, 'bars')
+        })
+    }
+},
+    navigationOptions
+);
 
 const RootStack = createDrawerNavigator(
     {
         TursScreen: {
+            
             screen: tursScreenStack,
             navigationOptions: ({ navigation }) => ({
                 drawerLabel: 'Lista de Turs',
                 drawerIcon: ({ tintColor }) => (<Icon name="home" size={30} style={{ color: tintColor }} />),
+            })
+        },
+        HistorialScreen: {
+            screen: historialScreenStack,
+            navigationOptions: ({ navigation }) => ({
+                drawerLabel: 'Historial',
+                drawerIcon: ({ tintColor }) => (<Icon name="list" size={30} style={{ color: tintColor }} />),
             })
         },
         LogoutScreen: {

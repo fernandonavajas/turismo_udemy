@@ -14,19 +14,23 @@ export default class AddRegistro extends Component {
 
     constructor(props) {
         super(props);
+        const { params } = props.navigation.state;
+        console.log(params);
         this.state = {
             registroUsuario: {
-                categoria: '',
-                lugar: '',
+                categoria: params.tur.name,
+                lugar: params.tur.lastname,
                 fecha: '',
                 name: '',
                 phone: '',
-                cantidad: '',
-                idioma: '',
-                privado: '',
-                tipoPago: '',
-                precio: '',
+                cantidad: 2,
+                idioma: 'E',
+                privado: true,
+                tipoPago: 'E',
+                precio: (params.tur.price),
                 comentario: '',
+                conductor:'',
+                color:false,
             }
         };
     }
@@ -35,10 +39,10 @@ export default class AddRegistro extends Component {
         const validate = this.refs.form.getValue();
         if (validate) {
             let data = {};
-            const key = firebase.database().ref().child('registro').push().key;
-            data[`registro/${key}`] = this.state.tur;
+            const key = firebase.database().ref().child('registros').push().key;
+            data[`registros/${key}`] = this.state.registroUsuario;
             firebase.database().ref().update(data).then(() => {
-                Toast.showWithGravity('Solicitud enviada con exito', Toast.LONG, Toast.BOTTOM);
+                Toast.showWithGravity('Solicitud enviada con exito, lo contactaremos a la brevedad', Toast.LONG, Toast.BOTTOM);
                 this.props.navigation.navigate('ListTurs');
             });
         }
@@ -52,8 +56,8 @@ export default class AddRegistro extends Component {
         const { registroUsuario } = this.state;
         return (
             <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
-                <ScrollView style={styles.container}>
-                    <Card title="Formulario de Usuario">
+                <ScrollView style={styles.container} >
+                    <Card keyboardDismissMode='on-drag' title="Formulario de Usuario">
                         <View>
                             <Form
                                 ref="form"
@@ -65,7 +69,7 @@ export default class AddRegistro extends Component {
                         </View>
                         <AppButton
                             bgColor="rgba(255, 38, 74, 0.9)"
-                            title="Agregar  "
+                            title="Solicitar  "
                             action={this.save.bind(this)}
                             iconName="plus"
                             iconSize={30}

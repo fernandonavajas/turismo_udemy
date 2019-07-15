@@ -6,7 +6,7 @@ import { ListItem, Text } from "react-native-elements";
 import *  as firebase from 'firebase'
 import { NavigationActions } from 'react-navigation';
 import TurismoAddButton from '../../components/Turismo/TurismoAddButton';
-
+import { user1 } from '../../App'
 
 export default class Turs extends Component {
     constructor(props) {
@@ -18,6 +18,7 @@ export default class Turs extends Component {
             tur_logo: require('../../assets/images/robot-prod.png')
         };
         this.refTurs = firebase.database().ref().child('turs')
+        console.log(user1.email);
     }
 
     componentDidMount() {
