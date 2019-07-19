@@ -18,10 +18,10 @@ export default class TurEspecifico extends Component {
     }
 
     turEspecificoDetail(turEspecifico) {
-        console.log(turEspecifico);
+        //console.log(turEspecifico);
         const navigateAction = NavigationActions.navigate({
             routeName: 'DetailTur',
-            params: { tur: turEspecifico }
+            params: { tur: turEspecifico}
         });
         this.props.navigation.dispatch(navigateAction);
     }
@@ -41,13 +41,13 @@ export default class TurEspecifico extends Component {
     }
 
     render() {
-        const { turEspecifico } = this.state;
+        const { turEspecifico, turs } = this.state;
         return (
             <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
 
                 <FlatList
                     data={turEspecifico}
-                    renderItem={(data) => this.renderTurs(data.item)}
+                    renderItem={(data) => this.renderTurs(data.item, turs)}
                 />
             </BackgroundImage>
         );

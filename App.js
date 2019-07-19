@@ -6,6 +6,7 @@ firebase.initializeApp(firebaseConfig);
 import GuestNavigation from './navigation/guest';
 import LoggedNavigation from './navigation/logged';
 import moment from "moment";
+import { turs1 } from './screens/Turs/Turs';
 moment.locale('es');
 
 console.disableYellowBox = true;
@@ -27,7 +28,8 @@ export default class App extends React.Component {
         this.setState({
           isLogged: true,//este cambia la vista
           loaded: true,
-          user: user
+          user: user,
+          
         });
       } else {
         this.setState({
@@ -40,7 +42,7 @@ export default class App extends React.Component {
 
   render() {
     const { isLogged, loaded, user } = this.state;
-
+    
     if (!loaded) {
       return (<PreLoader />)
     }

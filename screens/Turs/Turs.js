@@ -14,14 +14,44 @@ export default class Turs extends Component {
         this.state = {
             turs: [],
             categorias: [],
+            registros: [],
             loaded: false,
             tur_logo: require('../../assets/images/robot-prod.png')
         };
         this.refTurs = firebase.database().ref().child('turs')
-        console.log(user1.email);
+        this.refRegistros = firebase.database().ref().child('registros')
+        //console.log(user1.email);
     }
-
     componentDidMount() {
+
+        if (user1.email == 'fernando.navajaso@utem.cl') {
+            this.refRegistros.on('value', snapshot => {
+                let registros = [];
+                snapshot.forEach(row => {
+                    registros.push({
+                        id: row.key,
+                        name: row.val().name,
+                        lastname: row.val().lastname,
+                        precio: row.val().precio,
+                        cometario: row.val().comentario,
+                        cantidad: row.val().cantidad,
+                        conductor: row.val().conductor,
+                        fecha: row.val().fecha,
+                        idioma: row.val().idioma,
+                        nameUser: row.val().nameUser,
+                        tipoPago: row.val().tipoPago,
+                        phone: row.val().phone,
+                        color: row.val().color
+
+                    })
+                });
+                registros.sort((a, b) => a.fecha > b.fecha ? -1 : 1)
+                this.setState({
+                    registros,
+                    loaded: true
+                });
+            })
+        }
         this.refTurs.on('value', snapshot => {
             let turs = [];
             let categorias = [];
@@ -41,7 +71,8 @@ export default class Turs extends Component {
                 categorias,
                 loaded: true
             });
-        })
+        });
+
     };
 
     addTur() {
@@ -51,7 +82,13 @@ export default class Turs extends Component {
         this.props.navigation.dispatch(navigateAction);
 
     }
-
+    registroEspecifico(registro) {
+        const navigateAction = NavigationActions.navigate({
+            routeName: 'RegistroEspecifico',//DetailTur
+            params: { registro: registro }
+        });
+        this.props.navigation.dispatch(navigateAction);
+    }
     listarTursEspecificos(categoria) {
         let turFilter = []
         this.state.turs.forEach(row => {
@@ -66,14 +103,12 @@ export default class Turs extends Component {
                 })
             }
         });
-        console.log(turFilter); // esto muestra el json con los turs especificos
+        //console.log(turFilter); // esto muestra el json con los turs especificos
         const navigateAction = NavigationActions.navigate({
             routeName: 'TurEspecifico',//DetailTur
             params: { turFilter: turFilter }
         });
         this.props.navigation.dispatch(navigateAction);
-
-
 
     }
 
@@ -83,16 +118,50 @@ export default class Turs extends Component {
                 containerStyle={styles.item}
                 titleStyle={styles.title}
                 roundAvatar
-                title={`${categoria} `}//(Capacidad:${tur.capacity})`}
+                title={`${categoria} `}//(Capacidad:${categoria.name})`}
                 leftAvatar={{ source: this.state.tur_logo }}
                 onPress={() => this.listarTursEspecificos(categoria)}
                 rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
             />
         )
     }
+    renderRegistros(registro) {
+        var date = new Date(registro.fecha);
+            var FormatoFecha = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
+            registro.fecha = FormatoFecha;
+            if (registro.conductor) { 
+                return (
+                    <ListItem
+                        containerStyle={styles.item2}
+                        titleStyle={styles.title}
+                        subtitleStyle={styles.subtitle}
+                        roundAvatar
+                        title={`${registro.name} ( ${registro.lastname} ) `}//(Capacidad:${categoria.name})`}
+                        subtitle={`Teléfono: ${registro.phone} \n Fecha Salida: ${registro.fecha}`}
+                        leftAvatar={{ source: this.state.tur_logo }}
+                        onPress={() => this.registroEspecifico(registro)}
+                        rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
+                    />
+                )
+            }
+            return (
+                <ListItem
+                    containerStyle={styles.item}
+                    titleStyle={styles.title}
+                    subtitleStyle={styles.subtitle}
+                    roundAvatar
+                    title={`${registro.name}  - ${registro.lastname}  `}//(Capacidad:${categoria.name})`}
+                    subtitle={`Teléfono: ${registro.phone} \n Fecha Salida: ${registro.fecha}`}
+                    leftAvatar={{ source: this.state.tur_logo }}
+                    onPress={() => this.registroEspecifico(registro)}
+                    rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
+                />
+            )
+        
+    }
 
     render() {
-        const { loaded, turs, categorias } = this.state;
+        const { loaded, turs, categorias, registros } = this.state;
 
         if (!loaded) {
             return <PreLoader />
@@ -101,8 +170,20 @@ export default class Turs extends Component {
             return (
                 <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
                     <Text>no hay turs disponibles</Text>
-                    <TurismoAddButton addTurismo={this.addTur.bind(this)} />
                 </BackgroundImage>
+            )
+        }
+        if (user1.email == 'fernando.navajaso@utem.cl') {
+            
+            return (
+                <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
+                    <FlatList
+                        data={registros}
+                        renderItem={(data) => this.renderRegistros(data.item)}
+                    />
+
+                </BackgroundImage>
+
             )
         }
         return (
@@ -120,8 +201,15 @@ export default class Turs extends Component {
 
 const styles = StyleSheet.create({
     title: {
+        fontSize: 20,
+        fontFamily: 'Roboto',
         color: '#fff',
-        textAlign: 'center'
+        textAlign: 'left'
+    },
+    subtitle: {
+        color: '#fff',
+        fontFamily: 'Roboto',
+        textAlign: 'left'
     },
     listIconStyle: {
         //marginRight: 10,
@@ -131,9 +219,14 @@ const styles = StyleSheet.create({
     },
     item: {
         height: 100,
-        margin: 3,
+        margin: 1,
         padding: 10,
-        backgroundColor: 'rgba(63, 191, 191, 0.3)'
+        backgroundColor: 'rgba(191, 63, 63, 0.5)'
+    },
+    item2: { // Chofer asignado(verde)
+        height: 100,
+        margin: 1,
+        backgroundColor: 'rgba(63, 191, 127, 0.5)'
     }
 });
 

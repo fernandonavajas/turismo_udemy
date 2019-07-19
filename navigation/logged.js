@@ -9,9 +9,13 @@ import DetailTurScreen from '../screens/Turs/DetailTur';
 import TurEspecificoScreen from '../screens/Turs/turEspecifico';
 import AddRegistroScreen from '../screens/Turs/AddRegistro';
 import HistorialScreen from '../screens/Turs/Historial'
+import HistorialEspecificoScreen from '../screens/historial/DetalleHistorial'
+import RegistroEspecificoScreen from '../screens/admin/RegistroEspecifico'
+import { user1 } from '../App';//Usuario Actual user1.email para el mail
+
 
 const navigationOptions = {
-    
+
     defaultNavigationOptions: {
         headerStyle: {
             backgroundColor: 'rgba(223,62,62,1)'
@@ -84,7 +88,16 @@ const tursScreenStack = createStackNavigator({
             headerLeft: leftIcon(navigation, 'bars')
         })
 
-    }
+    },
+    RegistroEspecifico: {
+        screen: RegistroEspecificoScreen,
+        navigationOptions: ({ navigation }) => ({
+            ...navigationOptions,
+            title: 'Solicitudes',
+            headerLeft: leftIcon(navigation, 'bars')
+        })
+    },
+
 
 },
     navigationOptions
@@ -107,6 +120,14 @@ const historialScreenStack = createStackNavigator({
             title: 'Historial',
             headerLeft: leftIcon(navigation, 'bars')
         })
+    },
+    HistorialEspecifico: {
+        screen: HistorialEspecificoScreen,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Detalle del Tour',
+            headerRight: rightIcon(navigation, 'home'),
+            headerLeft: leftIcon(navigation, 'bars')
+        })
     }
 },
     navigationOptions
@@ -115,7 +136,7 @@ const historialScreenStack = createStackNavigator({
 const RootStack = createDrawerNavigator(
     {
         TursScreen: {
-            
+
             screen: tursScreenStack,
             navigationOptions: ({ navigation }) => ({
                 drawerLabel: 'Lista de Turs',

@@ -5,6 +5,8 @@ import moment from 'moment/src/moment';
 moment.locale('es');
 //Form.stylesheet.dateValue.normal.backgroundColor= 'red';
 
+
+
 var Idioma = t.enums({
     E: 'Español',
     P: 'Portugués',
@@ -17,10 +19,10 @@ var TipoPago = t.enums({
 
 })
 export const RegistroUsuario = t.struct({
-    categoria: t.String,
-    lugar: t.String,
-    fecha: t.Date,
     name: t.String,
+    lastname: t.String,
+    fecha: t.Date,
+    nameUser: t.String,
     phone: t.Number,
     cantidad: t.Number,
     idioma: Idioma,
@@ -31,17 +33,15 @@ export const RegistroUsuario = t.struct({
 
 });
 export const options = {
-    order: ['categoria', 'lugar', 'fecha', 'name', 'phone', 'cantidad', 'idioma', 'privado', 'tipoPago', 'precio', 'comentario'],
+    order: ['nameUser','name','lastname', 'fecha', 'phone', 'cantidad', 'idioma', 'privado', 'tipoPago', 'precio', 'comentario'],
     fields: {
-        categoria: {
+        name: {
             label: 'Tipo Tour',
-            placeholder: 'Categoría',
-            editable: false
+            placeholder: '',
         },
-        lugar: {
-            label: 'Tour Específico',
-            placeholder: 'Lugar',
-            editable: false
+        lastname: {
+            label: 'Tour Especifico',
+            placeholder: '',
         },
         fecha: {
             label: 'Fecha de salida',
@@ -71,9 +71,10 @@ export const options = {
             }
 
         },
-        name: {
+        nameUser: {
             label: 'Nombre',
-            placeholder: 'Nombre del encargado'
+            placeholder: 'Nombre del encargado',
+            autoFocus: true
         },
         phone: {
             label: 'Teléfono',
@@ -90,6 +91,7 @@ export const options = {
         },
         tipoPago: {
             label: 'Tipo pago',
+
         },
         privado: {
             label: 'Privado ',
