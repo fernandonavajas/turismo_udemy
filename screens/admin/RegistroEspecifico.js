@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import BackgroundImage from '../../components/BackgroundImage';
 import PreLoader from '../../components/PreLoader';
 import { StyleSheet, FlatList } from 'react-native';
-import { ListItem, Text, Card } from "react-native-elements";
+import { ListItem, Text, Card, Input, Button } from "react-native-elements";
 import *  as firebase from 'firebase'
 import { NavigationActions } from 'react-navigation';
+import AppButton from '../../components/AppButton';
 
 
 export default class RegistroEspecifico extends Component {
@@ -15,21 +16,50 @@ export default class RegistroEspecifico extends Component {
             registroEspecifico: params.registro
         };
     }
+    save(conductor){
+        console.log(conductor)
+    }
     
+
     render() {
         const { registroEspecifico } = this.state;
         return (
             <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
 
                 <Card>
-                    <Text>{registroEspecifico.nameUser}</Text>
-                    <Text>{registroEspecifico.name}</Text>
-                    <Text>{registroEspecifico.lastname}</Text>
+                    <Text style={styles.textTitle}>{registroEspecifico.name}</Text>
+                    <Text style={styles.textTitle}>{registroEspecifico.lastname}</Text>
+                    <Text style={{ textAlign: 'center' }}>Fecha salida: {registroEspecifico.fecha}</Text>
+                    <Text> </Text>
+                    <Text style={styles.textSimple}>Nombre: {registroEspecifico.nameUser}</Text>
+                    <Text style={styles.textSimple}>Teléfono: {registroEspecifico.phone}</Text>
+                    <Text style={styles.textSimple}>Idioma: {registroEspecifico.idioma}</Text>
+                    <Text style={styles.textSimple}>Pasajeros: {registroEspecifico.cantidad}</Text>
+                    <Text style={styles.textSimple}>Precio: $ {registroEspecifico.precio}</Text>
+                    <Text style={styles.textSimple}>Tipo pago: {registroEspecifico.tipoPago}</Text>
+                    <Text style={styles.textSimple}>Comentarios: {registroEspecifico.comentario}</Text>
+                    <Text>  </Text>
+                    <Input 
+                        style={{marginBottom:50}}
+                        placeholder='¿Quien será el conductor?'
+                        label='Conductor'
+                        labelStyle={styles.textSimple}
+                    />
+                    <Text> </Text>
+                    <AppButton
+                        bgColor="green"
+                        title="Registrar conductor "
+                        action={()=>this.save.bind(this)}
+                        iconName="car"
+                        iconColor="#fff"
+                    />
+
                 </Card>
             </BackgroundImage>
         );
     }
 }
+
 
 const styles = StyleSheet.create({
     title: {
@@ -42,17 +72,37 @@ const styles = StyleSheet.create({
         color: 'rgba(255,38,74, 0.6)',
 
     },
-    item: {
-        height: 200,
-        margin: 5,
-        padding: 10,
-        backgroundColor: 'rgba(21, 0, 255, 0.3)'
+    textTitle: {
+        fontFamily: 'Roboto',
+        borderRadius: 2,
+        backgroundColor: 'rgba(223,62,62,1)',
+        textAlign: 'center',
+        fontSize: 20,
+        color: '#fff',
+        fontWeight: 'bold',
     },
-    item2: {
-        height: 200,
+    textSimple: {
+        paddingBottom: 3,
+        marginLeft: 10,
+        fontFamily: 'Roboto',
+        borderRadius: 2,
+        fontSize: 20,
+
+    },
+    labelPrecio: {
+        fontFamily: 'Roboto',
+        borderRadius: 2,
+        fontSize: 20,
+        margin: 20,
+        textAlign: 'center',
+        alignSelf: 'center',
+        backgroundColor: 'orange'
+    },
+    item: {
+        height: 100,
         margin: 5,
         padding: 10,
-        backgroundColor: 'rgba(255, 34, 0, 0.3)'
+        backgroundColor: 'rgba(63, 191, 191, 0.3)'
     }
 });
 

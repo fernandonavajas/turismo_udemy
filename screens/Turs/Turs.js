@@ -136,8 +136,8 @@ export default class Turs extends Component {
                         titleStyle={styles.title}
                         subtitleStyle={styles.subtitle}
                         roundAvatar
-                        title={`${registro.name} ( ${registro.lastname} ) `}//(Capacidad:${categoria.name})`}
-                        subtitle={`Teléfono: ${registro.phone} \n Fecha Salida: ${registro.fecha}`}
+                        title={`${registro.name} - ${registro.lastname} `}//(Capacidad:${categoria.name})`}
+                        subtitle={`Fecha Salida: ${registro.fecha} \n Nombre:${registro.nameUser} \n Teléfono: ${registro.phone}  `}
                         leftAvatar={{ source: this.state.tur_logo }}
                         onPress={() => this.registroEspecifico(registro)}
                         rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}

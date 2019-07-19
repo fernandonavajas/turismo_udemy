@@ -66,13 +66,13 @@ export default class Historial extends Component {
                     containerStyle={styles.item2}
                     titleStyle={styles.title}
                     subtitleStyle={styles.subtitle}
-                    title={`${historial.name}( ${historial.lastname}) ` + '\n'}//(Capacidad:${tur.capacity})`}
+                    title={`${historial.name} - ${historial.lastname}` + '\n'}//(Capacidad:${tur.capacity})`}
                     subtitle={`Fecha salida: ${FormatoFecha}` + '\n' + `Teléfono: ${historial.phone} `}
                     onPress={() => this.historialEspecifico(historial)}
                     rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
                 />
             )
-        } else {
+        } /*else {
             return (
 
                 <ListItem
@@ -86,7 +86,7 @@ export default class Historial extends Component {
                     rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
                 />
             )
-        }
+        }*/
 
     }
 
@@ -138,13 +138,13 @@ const styles = StyleSheet.create({
         height: 100,
         margin: 3,
         padding: 10,
-        borderRadius: 10,
+        borderRadius: 3,
         backgroundColor: 'rgba(191, 63, 63, 0.6)'
     },
     item2: { // Chofer asignado(verde)
         height: 100,
         margin: 3,
-        borderRadius: 10,
+        borderRadius: 3,
         padding: 10,
         backgroundColor: 'rgba(63, 191, 127, 0.6)'
     }
