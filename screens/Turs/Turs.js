@@ -6,8 +6,10 @@ import { ListItem, Text } from "react-native-elements";
 import *  as firebase from 'firebase'
 import { NavigationActions } from 'react-navigation';
 import TurismoAddButton from '../../components/Turismo/TurismoAddButton';
-import { user1 } from '../../App'
+import { user } from '../../App'
 
+export var categoriasExport = [];
+export var tursExport = [];
 export default class Turs extends Component {
     constructor(props) {
         super(props);
@@ -20,11 +22,11 @@ export default class Turs extends Component {
         };
         this.refTurs = firebase.database().ref().child('turs')
         this.refRegistros = firebase.database().ref().child('registros')
-        //console.log(user1.email);
+        //console.log(user.email);
     }
     componentDidMount() {
 
-        if (user1.email == 'fernando.navajaso@utem.cl') {
+        if (user.email == 'fernando.navajaso@utem.cl') {
             this.refRegistros.on('value', snapshot => {
                 let registros = [];
                 snapshot.forEach(row => {
@@ -62,10 +64,13 @@ export default class Turs extends Component {
                     lastname: row.val().lastname,
                     price: row.val().price,
                     description: row.val().description,
-                    duration: row.val().duration
+                    duration: row.val().duration,
+                    url: row.val().url
                 })
             });
             categorias = [... new Set(turs.map(x => x.name))]; // categorias distintas
+            categoriasExport=categorias;
+            tursExport=turs;
             this.setState({
                 turs,
                 categorias,
@@ -99,7 +104,8 @@ export default class Turs extends Component {
                     lastname: row.lastname,
                     price: row.price,
                     description: row.description,
-                    duration: row.duration
+                    duration: row.duration,
+                    url: row.url
                 })
             }
         });
@@ -173,7 +179,7 @@ export default class Turs extends Component {
                 </BackgroundImage>
             )
         }
-        if (user1.email == 'fernando.navajaso@utem.cl') {
+        if (user.email == 'fernando.navajaso@utem.cl') {
             
             return (
                 <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>

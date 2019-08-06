@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 import BackgroundImage from '../../components/BackgroundImage';
 import AppButton from '../../components/AppButton';
-import { View, StyleSheet, ScrollView, Picker, Text } from 'react-native';
+import { View, StyleSheet, ScrollView, Picker, Text, Switch } from 'react-native';
 import *  as firebase from 'firebase';
 import { options, RegistroUsuario } from '../../forms/delUsuario';
 import t from 'tcomb-form-native';
 const Form = t.form.Form;
-import { Card } from 'react-native-elements';
+import { Card, Input } from 'react-native-elements';
 import Toast from 'react-native-simple-toast';
-import { user1 } from '../../App'
+import NumericInput from 'react-native-numeric-input'
+
+//import de usuario para saber el email del usuario
+import { user } from '../../App';
+
+//import para listar todas las categorias y subcategorias de cada uno
+import { categoriasExport } from './Turs';
+import { tursExport } from './Turs'
 
 export default class AddRegistro extends Component {
 
@@ -16,34 +23,55 @@ export default class AddRegistro extends Component {
         super(props);
         const { params } = props.navigation.state;
         this.state = {
-             //picker 1
-            pickerItemArray:[
-                "Cordillera", "Viñedos", "Playa"
-            ],
-            pickerSelection: '',
+            //picker categoria (name)
+            pickerItemArray1: categoriasExport,
+            pickerSelection1: params.tur.name,
+            //picker subcategoria(lastname)
+            pickerItemArray2: [params.tur.lastname],
+            pickerSelection2: params.tur.lastname,
+            pruebaprivado: true,
             registroUsuario: {
                 name: params.tur.name,
                 lastname: params.tur.lastname,
-                fecha: '',
+                cantidad: 2,
+                privado: true,
+                precio: params.tur.price,
+                tipoPago: 'Efectivo',
                 nameUser: '',
                 phone: '',
-                cantidad: 2,
-                idioma: 'E',
-                privado: true,
-                tipoPago: 'E',
-                precio: (params.tur.price),
+                fecha: '',
+                idioma: 'Español',
                 comentario: '',
                 conductor: '',
-                color: false,
-                emailDelRegistro: user1.email,
+                emailDelRegistro: user.email,
             },
             loaded: false,
 
         }
     }
 
+    componentDidMount() {
+        let turFilter = [];
+        let pickerItemArray2 = [];
+        tursExport.forEach(row => {
+            if (row.name == this.state.pickerSelection1) {
+                turFilter.push({
+                    lastname: row.lastname,
+                    price: row.price,
+                    privado: row.privado,
+                    email: row.email,
+                    cantidad: row.cantidad
+                })
+                pickerItemArray2.push(row.lastname);//todos los lugares dentro de la categoria
+            }
+        });
+        this.setState({
+            pickerItemArray2
+        });
 
+    }
     save() {
+        console.log(this)
         const validate = this.refs.form.getValue();
         if (validate) {
             let data = {};
@@ -59,25 +87,83 @@ export default class AddRegistro extends Component {
     onChange(registroUsuario) {
         this.setState({ registroUsuario });
     }
-    updateName(name) {
-        this.setState({ name });
+    actualizarLastname(itemValue) {
+        let turFilter = [];
+        let pickerItemArray2 = [];
+        tursExport.forEach(row => {
+            if (row.name == itemValue) {
+                turFilter.push({
+                    lastname: row.lastname,
+                    price: row.price,
+                    privado: row.privado,
+                    email: row.email,
+                    cantidad: row.cantidad
+                })
+                pickerItemArray2.push(row.lastname);//todos los lugares dentro de la categoria
+            }
+        });
+        this.setState({
+            pickerItemArray2
+        });
+
+        //añadir los lugares al picker de lugares
+
+    }
+    toogleSwitch = (value) => {
+        this.setState({ pruebaprivado: value });
+        console.log(value)
     }
 
 
     render() {
-        const { registroUsuario, pickerItemArray, pickerItemArray1 } = this.state;
+        const { registroUsuario, pickerItemArray1, pickerItemArray2, pruebaprivado } = this.state;
         return (
             <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
                 <ScrollView style={styles.container} >
-                    <Card keyboardDismissMode='on-drag' title="Formulario de Usuario">
+                    <Card keyboardDismissMode='on-drag' title="Completa el formulario">
                         <View>
                             <Picker style={styles.pickerStyle}
-                                selectedValue={this.state.pickerSelection}
-                                onValueChange={(itemValue) => this.setState({ pickerSelection: itemValue })}>
-                                    {pickerItemArray.map((item)=>{
-                                        return(<Picker.Item label={item} value={item}/>)
-                                    })}
+                                selectedValue={this.state.pickerSelection1}
+                                onValueChange={(itemValue) => {
+                                    this.actualizarLastname(itemValue);
+                                    this.setState({ pickerSelection1: itemValue });
+                                    registroUsuario.name = itemValue;
+                                }}>
+                                {pickerItemArray1.map((item) => { return (<Picker.Item label={item} value={item} />) })}
                             </Picker>
+                            <Picker style={styles.pickerStyle}
+                                selectedValue={this.state.pickerSelection2}
+                                onValueChange={(itemValue) => {
+                                    this.setState({ pickerSelection2: itemValue });
+                                    registroUsuario.lastname = itemValue;
+                                }}>
+                                {pickerItemArray2.map((item) => { return (<Picker.Item label={item} value={item} />) })}
+                            </Picker>
+                            <View style={{ flexDirection: 'row', marginBottom: 10,marginTop:10 }}>
+                                <Text style={{ fontSize: 17, fontWeight: 'bold', marginRight: 50 }}>N° de pasajeros</Text>
+                                <NumericInput
+                                    onChange={value => registroUsuario.cantidad = value}
+                                    totalHeight={35}
+                                    step={1}
+                                    initValue={registroUsuario.cantidad}
+                                    minValue={1}
+                                    maxValue={15} />
+                            </View>
+                            <View style={{ flexDirection: 'row',  marginBottom: 10,marginTop:10 }}>
+                                <Text style={{ fontSize: 17, fontWeight: 'bold'}}>{this.state.pruebaprivado? 'Privado':'Compartido'}</Text>
+                                <Switch
+                                    thumbColor={'rgba(223,62,62,1)'}
+                                    trackColor={{false:'grey',true:'rgba(223,62,62,1)'}}
+                                    value={pruebaprivado}
+                                    onValueChange={this.toogleSwitch} />
+                            </View>
+                            <View style={{ flexDirection: 'row', marginBottom: 10,marginTop:10 }}>
+                                <Text style={{ fontSize: 17, fontWeight: 'bold'}}>Precio: </Text>
+                                <Text style={{ fontSize: 17, fontWeight: 'bold', color:'rgba(223,62,62,1)'}}>
+                                    24000
+                                </Text>
+                                
+                            </View>
                             <Form
                                 ref="form"
                                 type={RegistroUsuario}
@@ -88,7 +174,7 @@ export default class AddRegistro extends Component {
 
                         </View>
                         <AppButton
-                            bgColor="rgba(255, 38, 74, 0.9)"
+                            bgColor="rgba(223,62,62,1)"
                             title="Solicitar  "
                             action={this.save.bind(this)}
                             iconName="plus"
@@ -116,11 +202,17 @@ const styles = StyleSheet.create({
     },
     pickerStyle: {
         height: 50,
-        color: '#344953',
         borderWidth: 1,
         borderRadius: 5,
-        borderColor: '#d0d2d3',
-        color: '#d0d2d3'
+        borderColor: '#d0d2d3'
+    },
+    input: {
+        width: 60,
+        height: 40,
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: '#d0d2d3'
+
     }
 })
 

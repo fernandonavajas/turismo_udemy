@@ -26,12 +26,15 @@ export default class addTur extends Component {
     }
 
     save() {
+        //tourejemplo = {name: 'cordillera',lastname: 'santiasco',price: '234',description: 'sadasd',duration: '344eqweqwe',privado:true,email:'publico'}
         const validate = this.refs.form.getValue();
         if (validate) {
             let data = {};
             const key = firebase.database().ref().child('turs').push().key;
-            data[`turs/${key}`] = this.state.tur;
+            data[`turs/${key}`] = this.state.tur;//tour ejemplo
             firebase.database().ref().update(data).then(() => {
+                console.log("data")
+                console.log(data);
                 Toast.showWithGravity('Solicitud enviada con exito', Toast.LONG, Toast.BOTTOM);
                 this.props.navigation.navigate('ListTurs');
             });

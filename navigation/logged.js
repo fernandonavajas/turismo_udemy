@@ -11,7 +11,7 @@ import AddRegistroScreen from '../screens/Turs/AddRegistro';
 import HistorialScreen from '../screens/Turs/Historial'
 import HistorialEspecificoScreen from '../screens/historial/DetalleHistorial'
 import RegistroEspecificoScreen from '../screens/admin/RegistroEspecifico'
-import { user1 } from '../App';//Usuario Actual user1.email para el mail
+import { user } from '../App';//Usuario Actual user.email para el mail
 
 
 const navigationOptions = {

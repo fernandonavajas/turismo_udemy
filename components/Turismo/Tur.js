@@ -3,18 +3,21 @@ import AppButton from '../AppButton';
 import { StyleSheet, FlatList } from 'react-native';
 import { Card, Text } from 'react-native-elements';
 import TurRating from './TurRating';
+import { bold } from 'ansi-colors';
 
 
 export default class Tur extends Component {
     render() {
         const { goRegistrar, goHome, tur } = this.props;
+        console.log("tour url")
+        console.log(tur.url)
         return (
             <Card
                 title={tur.lastname}
-                image={require('../../assets/images/cordilleraLarge.jpeg')}
+                image={{uri:tur.url}}
             >
-                <TurRating turId={tur.id} />
-                <Text style={{ marginBottom: 15, marginTop: 10 }}>
+                <Text style={{  fontSize:20, fontWeight:'bold', marginTop: 10 }}>Descripción</Text>
+                <Text style={{ marginBottom: 15, marginTop: 10, textAlign:'justify' }}>
                     {tur.description}
                 </Text>
                 <AppButton
