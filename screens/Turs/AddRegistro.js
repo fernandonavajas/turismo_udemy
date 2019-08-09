@@ -69,6 +69,8 @@ export default class AddRegistro extends Component {
                 pickerItemArray2.push(row.lastname);//todos los lugares dentro de la categoria
             }
         });
+        pickerItemArray2 = [... new Set(pickerItemArray2.map(x => x))];
+        
         this.setState({
             pickerItemArray2,
             turFilter
@@ -106,6 +108,8 @@ export default class AddRegistro extends Component {
                 pickerItemArray2.push(row.lastname);//todos los lugares dentro de la categoria
             }
         });
+        pickerItemArray2 = [... new Set(pickerItemArray2.map(x => x))];
+
         this.setState({
             pickerItemArray2,
             turFilter

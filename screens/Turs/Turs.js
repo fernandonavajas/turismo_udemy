@@ -7,6 +7,7 @@ import *  as firebase from 'firebase'
 import { NavigationActions } from 'react-navigation';
 import TurismoAddButton from '../../components/Turismo/TurismoAddButton';
 import { user } from '../../App'
+import { functionTypeAnnotation } from '@babel/types';
 
 export var categoriasExport = [];
 export var tursExport = [];
@@ -55,10 +56,10 @@ export default class Turs extends Component {
             })
         }
         this.refTurs.on('value', snapshot => {
-            let turs = [];
+            let turs1 = [];
             let categorias = [];
             snapshot.forEach(row => {
-                turs.push({
+                turs1.push({
                     id: row.key,
                     name: row.val().name,
                     lastname: row.val().lastname,
@@ -73,6 +74,18 @@ export default class Turs extends Component {
 
                 })
             });
+            //aqui se filtraran los tours correspondientes a los hoteles 
+            let turs = [];
+            let es_hotel = false;
+            for (let tur of turs1) {
+                if (tur.email == user.email) {
+                    es_hotel = true;
+                    turs = turs1.filter(a => a.email == user.email)
+                }
+            }
+            if (es_hotel == false) {
+                turs = turs1.filter(b => b.email == 'publico')
+            }
             categorias = [... new Set(turs.map(x => x.name))]; // categorias distintas
             categoriasExport = categorias;
             tursExport = turs;
@@ -102,14 +115,10 @@ export default class Turs extends Component {
     listarTursEspecificos(categoria) {
         //aqui se debera filtar los tours para que solo salga 1 por nombre del tour
         let turFilter = []
-        let tur_unicos = [];
-        for (let tur of this.state.turs){
-            if(tur.cantidad==1 && tur.privado==true){
-                tur_unicos.push(tur);
-            }
-        }
-        console.log(tur_unicos)
-        tur_unicos.forEach(row => {
+        let lastnames = Array.from(new Set(this.state.turs.map(a => a.lastname)))
+            .map(ln => this.state.turs.find(a => a.lastname === ln))//"los andes","viña causiño",...
+
+        lastnames.forEach(row => {
             if (row.name == categoria) {
                 turFilter.push({
                     id: row.key,
