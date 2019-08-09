@@ -18,7 +18,7 @@ export default class Turs extends Component {
             categorias: [],
             registros: [],
             loaded: false,
-            tur_logo: require('../../assets/images/robot-prod.png')
+            tur_logo: require('../../assets/images/primera-alternativa.png')
         };
         this.refTurs = firebase.database().ref().child('turs')
         this.refRegistros = firebase.database().ref().child('registros')
@@ -65,12 +65,17 @@ export default class Turs extends Component {
                     price: row.val().price,
                     description: row.val().description,
                     duration: row.val().duration,
-                    url: row.val().url
+                    url: row.val().url,
+                    cantidad: row.val().cantidad,
+                    privado: row.val().privado,
+                    email: row.val().email
+
+
                 })
             });
             categorias = [... new Set(turs.map(x => x.name))]; // categorias distintas
-            categoriasExport=categorias;
-            tursExport=turs;
+            categoriasExport = categorias;
+            tursExport = turs;
             this.setState({
                 turs,
                 categorias,
@@ -95,8 +100,16 @@ export default class Turs extends Component {
         this.props.navigation.dispatch(navigateAction);
     }
     listarTursEspecificos(categoria) {
+        //aqui se debera filtar los tours para que solo salga 1 por nombre del tour
         let turFilter = []
-        this.state.turs.forEach(row => {
+        let tur_unicos = [];
+        for (let tur of this.state.turs){
+            if(tur.cantidad==1 && tur.privado==true){
+                tur_unicos.push(tur);
+            }
+        }
+        console.log(tur_unicos)
+        tur_unicos.forEach(row => {
             if (row.name == categoria) {
                 turFilter.push({
                     id: row.key,
@@ -124,7 +137,7 @@ export default class Turs extends Component {
                 containerStyle={styles.item}
                 titleStyle={styles.title}
                 roundAvatar
-                title={`${categoria} `}//(Capacidad:${categoria.name})`}
+                title={`${categoria} `}
                 leftAvatar={{ source: this.state.tur_logo }}
                 onPress={() => this.listarTursEspecificos(categoria)}
                 rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
@@ -133,37 +146,37 @@ export default class Turs extends Component {
     }
     renderRegistros(registro) {
         var date = new Date(registro.fecha);
-            var FormatoFecha = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
-            registro.fecha = FormatoFecha;
-            if (registro.conductor) { 
-                return (
-                    <ListItem
-                        containerStyle={styles.item2}
-                        titleStyle={styles.title}
-                        subtitleStyle={styles.subtitle}
-                        roundAvatar
-                        title={`${registro.name} - ${registro.lastname} `}//(Capacidad:${categoria.name})`}
-                        subtitle={`Fecha Salida: ${registro.fecha} \n Nombre:${registro.nameUser} \n Teléfono: ${registro.phone}  `}
-                        leftAvatar={{ source: this.state.tur_logo }}
-                        onPress={() => this.registroEspecifico(registro)}
-                        rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
-                    />
-                )
-            }
+        var FormatoFecha = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
+        registro.fecha = FormatoFecha;
+        if (registro.conductor) {
             return (
                 <ListItem
-                    containerStyle={styles.item}
+                    containerStyle={styles.item2}
                     titleStyle={styles.title}
                     subtitleStyle={styles.subtitle}
                     roundAvatar
-                    title={`${registro.name}  - ${registro.lastname}  `}//(Capacidad:${categoria.name})`}
-                    subtitle={`Teléfono: ${registro.phone} \n Fecha Salida: ${registro.fecha}`}
+                    title={`${registro.name} - ${registro.lastname} `}//(Capacidad:${categoria.name})`}
+                    subtitle={`Fecha Salida: ${registro.fecha} \n Nombre:${registro.nameUser} \n Teléfono: ${registro.phone}  `}
                     leftAvatar={{ source: this.state.tur_logo }}
                     onPress={() => this.registroEspecifico(registro)}
                     rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
                 />
             )
-        
+        }
+        return (
+            <ListItem
+                containerStyle={styles.item}
+                titleStyle={styles.title}
+                subtitleStyle={styles.subtitle}
+                roundAvatar
+                title={`${registro.name}  - ${registro.lastname}  `}//(Capacidad:${categoria.name})`}
+                subtitle={`Teléfono: ${registro.phone} \n Fecha Salida: ${registro.fecha}`}
+                leftAvatar={{ source: this.state.tur_logo }}
+                onPress={() => this.registroEspecifico(registro)}
+                rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
+            />
+        )
+
     }
 
     render() {
@@ -180,7 +193,7 @@ export default class Turs extends Component {
             )
         }
         if (user.email == 'fernando.navajaso@utem.cl') {
-            
+
             return (
                 <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
                     <FlatList

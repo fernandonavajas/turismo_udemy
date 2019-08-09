@@ -13,7 +13,7 @@ export default class TurEspecifico extends Component {
         const {params}= props.navigation.state;
         this.state = {
             turEspecifico: params.turFilter,
-            tur_logo: require('../../assets/images/robot-prod.png')
+            tur_logo: require('../../assets/images/primera-alternativa.png')
         };
     }
 

@@ -14,8 +14,8 @@ import NumericInput from 'react-native-numeric-input'
 import { user } from '../../App';
 
 //import para listar todas las categorias y subcategorias de cada uno
-import { categoriasExport } from './Turs';
-import { tursExport } from './Turs'
+import { categoriasExport } from './Turs';//todas las categorias
+import { tursExport } from './Turs'//todos los tours
 
 export default class AddRegistro extends Component {
 
@@ -23,13 +23,15 @@ export default class AddRegistro extends Component {
         super(props);
         const { params } = props.navigation.state;
         this.state = {
+            //array de tours seleecionados
+            turFilter: [],
             //picker categoria (name)
             pickerItemArray1: categoriasExport,
             pickerSelection1: params.tur.name,
             //picker subcategoria(lastname)
             pickerItemArray2: [params.tur.lastname],
             pickerSelection2: params.tur.lastname,
-            pruebaprivado: true,
+            //Formulario de Registro
             registroUsuario: {
                 name: params.tur.name,
                 lastname: params.tur.lastname,
@@ -57,21 +59,23 @@ export default class AddRegistro extends Component {
             if (row.name == this.state.pickerSelection1) {
                 turFilter.push({
                     lastname: row.lastname,
-                    price: row.price,
+                    precio: row.price,
                     privado: row.privado,
                     email: row.email,
                     cantidad: row.cantidad
                 })
+                console.log("componentDidMount")
+                console.log(turFilter)
                 pickerItemArray2.push(row.lastname);//todos los lugares dentro de la categoria
             }
         });
         this.setState({
-            pickerItemArray2
+            pickerItemArray2,
+            turFilter
         });
 
     }
     save() {
-        console.log(this)
         const validate = this.refs.form.getValue();
         if (validate) {
             let data = {};
@@ -94,7 +98,7 @@ export default class AddRegistro extends Component {
             if (row.name == itemValue) {
                 turFilter.push({
                     lastname: row.lastname,
-                    price: row.price,
+                    precio: row.price,
                     privado: row.privado,
                     email: row.email,
                     cantidad: row.cantidad
@@ -103,66 +107,103 @@ export default class AddRegistro extends Component {
             }
         });
         this.setState({
-            pickerItemArray2
+            pickerItemArray2,
+            turFilter
         });
 
         //añadir los lugares al picker de lugares
 
     }
     toogleSwitch = (value) => {
-        this.setState({ pruebaprivado: value });
-        console.log(value)
+        this.setState(prevState => ({
+            registroUsuario: {
+                ...prevState.registroUsuario,
+                privado: value
+
+            }
+        }))
+    }
+    cambiarPrecio(nuevoPrecio) {
+        this.setState(prevState => ({
+            registroUsuario: {
+                ...prevState.registroUsuario,
+                precio: nuevoPrecio
+            }
+        }))
+
+    }
+    calculoPrecio() {// variables que influjen en el precio(lugar,cantidad, privado)
+        for (let tur of this.state.turFilter) {
+            if (tur.lastname == this.state.registroUsuario.lastname &&
+                tur.cantidad == this.state.registroUsuario.cantidad &&
+                tur.privado == this.state.registroUsuario.privado) {
+                this.cambiarPrecio(tur.precio)
+                return tur.precio
+            }
+        }
+        return 0;
     }
 
 
     render() {
-        const { registroUsuario, pickerItemArray1, pickerItemArray2, pruebaprivado } = this.state;
+        const { registroUsuario, pickerItemArray1, pickerItemArray2 } = this.state;
         return (
             <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
                 <ScrollView style={styles.container} >
                     <Card keyboardDismissMode='on-drag' title="Completa el formulario">
                         <View>
-                            <Picker style={styles.pickerStyle}
-                                selectedValue={this.state.pickerSelection1}
-                                onValueChange={(itemValue) => {
-                                    this.actualizarLastname(itemValue);
-                                    this.setState({ pickerSelection1: itemValue });
-                                    registroUsuario.name = itemValue;
-                                }}>
-                                {pickerItemArray1.map((item) => { return (<Picker.Item label={item} value={item} />) })}
-                            </Picker>
-                            <Picker style={styles.pickerStyle}
-                                selectedValue={this.state.pickerSelection2}
-                                onValueChange={(itemValue) => {
-                                    this.setState({ pickerSelection2: itemValue });
-                                    registroUsuario.lastname = itemValue;
-                                }}>
-                                {pickerItemArray2.map((item) => { return (<Picker.Item label={item} value={item} />) })}
-                            </Picker>
-                            <View style={{ flexDirection: 'row', marginBottom: 10,marginTop:10 }}>
+                            <View style={{ marginBottom: 2, borderWidth: 1, borderColor: '#d0d2d3', borderRadius: 5 }}>
+                                <Picker style={styles.pickerStyle}
+                                    mode='dropdown'
+                                    selectedValue={this.state.pickerSelection1}
+                                    onValueChange={(itemValue) => {
+                                        this.actualizarLastname(itemValue);
+                                        this.setState({ pickerSelection1: itemValue });
+                                        registroUsuario.name = itemValue;
+                                        this.calculoPrecio()
+                                    }}>
+                                    {pickerItemArray1.map((item) => { return (<Picker.Item label={item} value={item} />) })}
+                                </Picker>
+
+                            </View>
+                            <View style={{ marginBottom: 2, borderWidth: 1, borderColor: '#d0d2d3', borderRadius: 5 }}>
+                                <Picker style={styles.pickerStyle}
+                                    mode='dropdown'
+                                    selectedValue={this.state.pickerSelection2}
+                                    onValueChange={(itemValue) => {
+                                        this.setState({ pickerSelection2: itemValue });
+                                        registroUsuario.lastname = itemValue;
+                                        this.calculoPrecio()
+                                    }}>
+                                    {pickerItemArray2.map((item) => { return (<Picker.Item label={item} value={item} />) })}
+                                </Picker>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginBottom: 10, marginTop: 15 }}>
                                 <Text style={{ fontSize: 17, fontWeight: 'bold', marginRight: 50 }}>N° de pasajeros</Text>
                                 <NumericInput
-                                    onChange={value => registroUsuario.cantidad = value}
+                                    onChange={value => {
+                                        registroUsuario.cantidad = value
+                                        this.calculoPrecio()
+                                        console.log(registroUsuario)
+                                    }}
                                     totalHeight={35}
                                     step={1}
                                     initValue={registroUsuario.cantidad}
                                     minValue={1}
                                     maxValue={15} />
                             </View>
-                            <View style={{ flexDirection: 'row',  marginBottom: 10,marginTop:10 }}>
-                                <Text style={{ fontSize: 17, fontWeight: 'bold'}}>{this.state.pruebaprivado? 'Privado':'Compartido'}</Text>
+                            <View style={{ flexDirection: 'row', marginBottom: 9, marginTop: 5 }}>
+                                <Text style={{ fontSize: 17, fontWeight: 'bold' }}>{registroUsuario.privado ? 'Privado' : 'Compartido'}</Text>
                                 <Switch
                                     thumbColor={'rgba(223,62,62,1)'}
-                                    trackColor={{false:'grey',true:'rgba(223,62,62,1)'}}
-                                    value={pruebaprivado}
+                                    trackColor={{ false: 'grey', true: 'rgba(223,62,62,1)' }}
+                                    value={registroUsuario.privado}
                                     onValueChange={this.toogleSwitch} />
+                                <Text style={{ fontSize: 12, color: 'grey' }}>{registroUsuario.privado ? '' : '(*) Sujeto a disponibilidad'}</Text>
                             </View>
-                            <View style={{ flexDirection: 'row', marginBottom: 10,marginTop:10 }}>
-                                <Text style={{ fontSize: 17, fontWeight: 'bold'}}>Precio: </Text>
-                                <Text style={{ fontSize: 17, fontWeight: 'bold', color:'rgba(223,62,62,1)'}}>
-                                    24000
-                                </Text>
-                                
+                            <View style={{ flexDirection: 'row', marginBottom: 15, marginTop: 10 }}>
+                                <Text style={{ fontSize: 17, fontWeight: 'bold' }}>Precio: </Text>
+                                <Text style={{ fontSize: 17, fontWeight: 'bold', color: 'rgba(223,62,62,1)' }}>{registroUsuario.precio}</Text>
                             </View>
                             <Form
                                 ref="form"
@@ -201,10 +242,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     pickerStyle: {
-        height: 50,
+        flex: 1,
         borderWidth: 1,
-        borderRadius: 5,
-        borderColor: '#d0d2d3'
+        borderColor: 'red'
+        //'#d0d2d3'
     },
     input: {
         width: 60,
