@@ -13,7 +13,7 @@ export default class Historial extends Component {
         this.state = {
             historial: [],
             loaded: false,
-            tur_logo: require('../../assets/images/robot-prod.png')
+            tur_logo: require('../../assets/images/primera-alternativa.png')
         };
         this.refHistorial = firebase.database().ref().child('registros')
     }
@@ -31,12 +31,11 @@ export default class Historial extends Component {
                     phone: row.val().phone,
                     cantidad: row.val().cantidad,
                     idioma: row.val().idioma,
-                    privado: row.val().privado,
+                    privado: row.val().private,
                     tipoPago: row.val().tipoPago,
                     precio: row.val().precio,
                     comentario: row.val().comentario,
                     conductor: row.val().conductor,
-                    color: row.val().color,
                 })
             });
             historial.sort((a, b) => a.fecha > b.fecha ? -1 : 1)
@@ -63,30 +62,18 @@ export default class Historial extends Component {
         if (historial.conductor) { // si tiene conductor, sale marcado verde
             return (            // y al precionarlo redirigen a funciones distintas
                 <ListItem
-                    containerStyle={styles.item2}
-                    titleStyle={styles.title}
-                    subtitleStyle={styles.subtitle}
-                    title={`${historial.name} - ${historial.lastname}` + '\n'}//(Capacidad:${tur.capacity})`}
-                    subtitle={`Fecha salida: ${FormatoFecha}` + '\n' + `Teléfono: ${historial.phone} `}
-                    onPress={() => this.historialEspecifico(historial)}
-                    rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
-                />
-            )
-        } /*else {
-            return (
-
-                <ListItem
                     containerStyle={styles.item}
                     titleStyle={styles.title}
                     subtitleStyle={styles.subtitle}
-                    subtitle
-                    title={`${historial.name} , ${historial.lastname}  ` + '\n'}//(Capacidad:${tur.capacity})`}
-                    subtitle={`Fecha salida: ${FormatoFecha}` + '\n' + `Teléfono: ${historial.phone} `}
+                    roundAvatar
+                    title={`${historial.name}  - ${historial.lastname}  `}//(Capacidad:${categoria.name})`}
+                    subtitle={`Fecha Salida: ${historial.fecha}\nNombre: ${historial.nameUser}\nConductor: ${historial.conductor}  `}
+                    leftAvatar={{ source: this.state.tur_logo }}
                     onPress={() => this.historialEspecifico(historial)}
                     rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
                 />
             )
-        }*/
+        }
 
     }
 
@@ -118,9 +105,9 @@ export default class Historial extends Component {
 const styles = StyleSheet.create({
     title: {
         color: '#fff',
-        textAlign: 'center',
+        textAlign: 'justify',
         fontFamily: "Roboto",
-        fontSize: 20,
+        fontSize: 18,
     },
     subtitle: {
         color: '#fff',
@@ -135,18 +122,10 @@ const styles = StyleSheet.create({
 
     },
     item: { // aun sin asignar chofer(rojo)
-        height: 100,
-        margin: 3,
-        padding: 10,
-        borderRadius: 3,
-        backgroundColor: 'rgba(191, 63, 63, 0.6)'
-    },
-    item2: { // Chofer asignado(verde)
-        height: 100,
-        margin: 3,
-        borderRadius: 3,
-        padding: 10,
-        backgroundColor: 'rgba(63, 191, 127, 0.6)'
+        height: 110,
+        margin: 1,
+        padding: 8,
+        backgroundColor: 'rgba(63, 191, 127, 0.9)'
     }
 });
 

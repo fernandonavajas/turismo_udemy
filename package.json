@@ -27,6 +27,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-crypto": "^2.1.2",
     "react-native-elements": "^1.0.0-beta8",
+    "react-native-intl": "^1.0.0",
     "react-native-link": "^4.1.0",
     "react-native-numeric-input": "^1.8.3",
     "react-native-randombytes": "^3.5.3",

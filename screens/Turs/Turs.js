@@ -7,7 +7,6 @@ import *  as firebase from 'firebase'
 import { NavigationActions } from 'react-navigation';
 import TurismoAddButton from '../../components/Turismo/TurismoAddButton';
 import { user } from '../../App'
-import { functionTypeAnnotation } from '@babel/types';
 
 export var categoriasExport = [];
 export var tursExport = [];
@@ -35,8 +34,9 @@ export default class Turs extends Component {
                         id: row.key,
                         name: row.val().name,
                         lastname: row.val().lastname,
-                        precio: row.val().precio,
-                        cometario: row.val().comentario,
+                        precio: row.val().price,
+                        privado: row.val().private,
+                        comentario: row.val().comentario,
                         cantidad: row.val().cantidad,
                         conductor: row.val().conductor,
                         fecha: row.val().fecha,
@@ -44,7 +44,7 @@ export default class Turs extends Component {
                         nameUser: row.val().nameUser,
                         tipoPago: row.val().tipoPago,
                         phone: row.val().phone,
-                        color: row.val().color
+                        email: row.val().emailDelRegistro,
 
                     })
                 });
@@ -68,13 +68,14 @@ export default class Turs extends Component {
                     duration: row.val().duration,
                     url: row.val().url,
                     cantidad: row.val().cantidad,
-                    privado: row.val().privado,
+                    privado: row.val().private,
                     email: row.val().email
 
 
                 })
             });
             //aqui se filtraran los tours correspondientes a los hoteles 
+            console.log(turs1);
             let turs = [];
             let es_hotel = false;
             for (let tur of turs1) {
@@ -157,34 +158,21 @@ export default class Turs extends Component {
         var date = new Date(registro.fecha);
         var FormatoFecha = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
         registro.fecha = FormatoFecha;
-        if (registro.conductor) {
+        if (!registro.conductor) {
             return (
                 <ListItem
-                    containerStyle={styles.item2}
+                    containerStyle={styles.item}
                     titleStyle={styles.title}
                     subtitleStyle={styles.subtitle}
                     roundAvatar
-                    title={`${registro.name} - ${registro.lastname} `}//(Capacidad:${categoria.name})`}
-                    subtitle={`Fecha Salida: ${registro.fecha} \n Nombre:${registro.nameUser} \n Teléfono: ${registro.phone}  `}
+                    title={`${registro.name}  - ${registro.lastname}  `}//(Capacidad:${categoria.name})`}
+                    subtitle={`Fecha Salida: ${registro.fecha}\nNombre: ${registro.nameUser}\nTeléfono: ${registro.phone}  `}
                     leftAvatar={{ source: this.state.tur_logo }}
                     onPress={() => this.registroEspecifico(registro)}
                     rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
                 />
             )
         }
-        return (
-            <ListItem
-                containerStyle={styles.item}
-                titleStyle={styles.title}
-                subtitleStyle={styles.subtitle}
-                roundAvatar
-                title={`${registro.name}  - ${registro.lastname}  `}//(Capacidad:${categoria.name})`}
-                subtitle={`Teléfono: ${registro.phone} \n Fecha Salida: ${registro.fecha}`}
-                leftAvatar={{ source: this.state.tur_logo }}
-                onPress={() => this.registroEspecifico(registro)}
-                rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
-            />
-        )
 
     }
 
@@ -194,25 +182,28 @@ export default class Turs extends Component {
         if (!loaded) {
             return <PreLoader />
         };
+        /*
         if (!turs.length) {
             return (
                 <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
-                    <Text>no hay turs disponibles</Text>
+                    <Text></Text>
                 </BackgroundImage>
             )
-        }
+        }*/
         if (user.email == 'fernando.navajaso@utem.cl') {
-
-            return (
-                <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
-                    <FlatList
-                        data={registros}
-                        renderItem={(data) => this.renderRegistros(data.item)}
-                    />
-
-                </BackgroundImage>
-
-            )
+            if (!loaded) {
+                return <PreLoader />
+            }
+            else {
+                return (
+                    <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
+                        <FlatList
+                            data={registros}
+                            renderItem={(data) => this.renderRegistros(data.item)}
+                        />
+                    </BackgroundImage>
+                )
+            }
         }
         return (
             <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
@@ -221,7 +212,6 @@ export default class Turs extends Component {
                     data={categorias}
                     renderItem={(data) => this.renderTurs(data.item)}
                 />
-                <TurismoAddButton addTurismo={this.addTur.bind(this)} />
             </BackgroundImage>
         );
     }
@@ -246,15 +236,10 @@ const styles = StyleSheet.create({
 
     },
     item: {
-        height: 100,
+        height: 90,
         margin: 1,
-        padding: 10,
-        backgroundColor: 'rgba(191, 63, 63, 0.5)'
-    },
-    item2: { // Chofer asignado(verde)
-        height: 100,
-        margin: 1,
-        backgroundColor: 'rgba(63, 191, 127, 0.5)'
+        padding: 8,
+        backgroundColor: 'rgba(223,62,62,0.7)'
     }
 });
 

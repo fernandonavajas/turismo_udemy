@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { createDrawerNavigator, createStackNavigator, createAppContainer } from "react-navigation";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -34,7 +34,7 @@ const navigationOptions = {
 const leftIcon = (navigation, icon) => <Icon
     name={icon}
     style={{ marginLeft: 15 }}
-    size={20}
+    size={30}
     color="white"
     onPress={() => navigation.openDrawer()}
 />;
@@ -42,7 +42,7 @@ const leftIcon = (navigation, icon) => <Icon
 const rightIcon = (navigation, icon) => <Icon
     name={icon}
     style={{ marginRight: 15 }}
-    size={25}
+    size={30}
     color="white"
     onPress={() => navigation.navigate('ListTurs')}
 />;
@@ -94,6 +94,7 @@ const tursScreenStack = createStackNavigator({
         navigationOptions: ({ navigation }) => ({
             ...navigationOptions,
             title: 'Solicitudes',
+            headerRight: rightIcon(navigation, 'home'),
             headerLeft: leftIcon(navigation, 'bars')
         })
     },
@@ -118,6 +119,7 @@ const historialScreenStack = createStackNavigator({
         navigationOptions: ({ navigation }) => ({
             ...navigationOptions,
             title: 'Historial',
+            headerRight: rightIcon(navigation, 'home'),
             headerLeft: leftIcon(navigation, 'bars')
         })
     },

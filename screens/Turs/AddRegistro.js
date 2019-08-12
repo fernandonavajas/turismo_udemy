@@ -119,6 +119,8 @@ export default class AddRegistro extends Component {
 
     }
     toogleSwitch = (value) => {
+        console.log("cambio")
+        console.log(this.state.registroUsuario)
         this.setState(prevState => ({
             registroUsuario: {
                 ...prevState.registroUsuario,
@@ -128,6 +130,8 @@ export default class AddRegistro extends Component {
         }))
     }
     cambiarPrecio(nuevoPrecio) {
+        console.log("precio")
+        console.log(nuevoPrecio)
         this.setState(prevState => ({
             registroUsuario: {
                 ...prevState.registroUsuario,

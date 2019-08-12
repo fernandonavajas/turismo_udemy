@@ -1,6 +1,5 @@
 import React from 'react';
 import PreLoader from './components/PreLoader';
-
 import firebaseConfig from './utils/firebase';
 import *  as firebase from 'firebase';
 firebase.initializeApp(firebaseConfig);
