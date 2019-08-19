@@ -47,8 +47,8 @@ export default class App extends React.Component {
     }
     if (isLogged) {
       user=user1;
-      console.log('app.js/50')
-      console.log(user1.email) //que usuario esta logeado
+
+      //console.log(user1.email) //que usuario esta logeado
       return (<LoggedNavigation />)
     } else { // si no esta loggeado que abra la navegacion del guest
       return (

@@ -9,8 +9,6 @@ import { bold } from 'ansi-colors';
 export default class Tur extends Component {
     render() {
         const { goRegistrar, goHome, tur } = this.props;
-        console.log("tour url")
-        console.log(tur.url)
         return (
             <Card
                 title={tur.lastname}

@@ -48,6 +48,7 @@ export default class AddRegistro extends Component {
                 emailDelRegistro: user.email,
             },
             loaded: false,
+            changed:false,
 
         }
     }
@@ -64,17 +65,17 @@ export default class AddRegistro extends Component {
                     email: row.email,
                     cantidad: row.cantidad
                 })
-                console.log("componentDidMount")
-                console.log(turFilter)
                 pickerItemArray2.push(row.lastname);//todos los lugares dentro de la categoria
             }
         });
         pickerItemArray2 = [... new Set(pickerItemArray2.map(x => x))];
-        
+
         this.setState({
             pickerItemArray2,
-            turFilter
-        });
+            turFilter,
+            loaded: true
+        });//, () => this.calculoPrecio()
+
 
     }
     save() {
@@ -87,6 +88,15 @@ export default class AddRegistro extends Component {
                 Toast.showWithGravity('Solicitud enviada con exito, lo contactaremos a la brevedad', Toast.LONG, Toast.BOTTOM);
                 this.props.navigation.navigate('ListTurs');
             });
+        }
+    }
+
+    componentDidUpdate() {
+        console.log("Se actualizo el componente")
+        if (!this.state.changed) {
+            console.log("calculo el precio")
+            this.calculoPrecio();
+            this.state.changed=true;
         }
     }
 
@@ -118,20 +128,17 @@ export default class AddRegistro extends Component {
         //añadir los lugares al picker de lugares
 
     }
-    toogleSwitch = (value) => {
-        console.log("cambio")
-        console.log(this.state.registroUsuario)
+    toogleSwitch(valor) {
         this.setState(prevState => ({
             registroUsuario: {
                 ...prevState.registroUsuario,
-                privado: value
+                privado: valor
 
             }
+
         }))
     }
     cambiarPrecio(nuevoPrecio) {
-        console.log("precio")
-        console.log(nuevoPrecio)
         this.setState(prevState => ({
             registroUsuario: {
                 ...prevState.registroUsuario,
@@ -146,10 +153,16 @@ export default class AddRegistro extends Component {
                 tur.cantidad == this.state.registroUsuario.cantidad &&
                 tur.privado == this.state.registroUsuario.privado) {
                 this.cambiarPrecio(tur.precio)
-                return tur.precio
+                console.log(tur);
             }
         }
         return 0;
+    }
+
+    formatoPrecio(precio) {
+        let PrecioEnMiles = precio / 1000
+        let precioString = PrecioEnMiles + ".000";
+        return (precioString);
     }
 
 
@@ -166,9 +179,8 @@ export default class AddRegistro extends Component {
                                     selectedValue={this.state.pickerSelection1}
                                     onValueChange={(itemValue) => {
                                         this.actualizarLastname(itemValue);
-                                        this.setState({ pickerSelection1: itemValue });
+                                        this.setState({ pickerSelection1: itemValue, changed: false });
                                         registroUsuario.name = itemValue;
-                                        this.calculoPrecio()
                                     }}>
                                     {pickerItemArray1.map((item) => { return (<Picker.Item label={item} value={item} />) })}
                                 </Picker>
@@ -179,9 +191,8 @@ export default class AddRegistro extends Component {
                                     mode='dropdown'
                                     selectedValue={this.state.pickerSelection2}
                                     onValueChange={(itemValue) => {
-                                        this.setState({ pickerSelection2: itemValue });
+                                        this.setState({ pickerSelection2: itemValue,changed: false });
                                         registroUsuario.lastname = itemValue;
-                                        this.calculoPrecio()
                                     }}>
                                     {pickerItemArray2.map((item) => { return (<Picker.Item label={item} value={item} />) })}
                                 </Picker>
@@ -190,9 +201,8 @@ export default class AddRegistro extends Component {
                                 <Text style={{ fontSize: 17, fontWeight: 'bold', marginRight: 50 }}>N° de pasajeros</Text>
                                 <NumericInput
                                     onChange={value => {
-                                        registroUsuario.cantidad = value
-                                        this.calculoPrecio()
-                                        console.log(registroUsuario)
+                                        registroUsuario.cantidad = value;
+                                        this.setState({changed: false})
                                     }}
                                     totalHeight={35}
                                     step={1}
@@ -206,12 +216,16 @@ export default class AddRegistro extends Component {
                                     thumbColor={'rgba(223,62,62,1)'}
                                     trackColor={{ false: 'grey', true: 'rgba(223,62,62,1)' }}
                                     value={registroUsuario.privado}
-                                    onValueChange={this.toogleSwitch} />
+                                    onValueChange={valor => {
+                                        this.toogleSwitch(valor);
+                                        this.setState({changed: false})
+                                    }}
+                                />
                                 <Text style={{ fontSize: 12, color: 'grey' }}>{registroUsuario.privado ? '' : '(*) Sujeto a disponibilidad'}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginBottom: 15, marginTop: 10 }}>
-                                <Text style={{ fontSize: 17, fontWeight: 'bold' }}>Precio: </Text>
-                                <Text style={{ fontSize: 17, fontWeight: 'bold', color: 'rgba(223,62,62,1)' }}>{registroUsuario.precio}</Text>
+                                <Text style={{ fontSize: 17, fontWeight: 'bold' }}>Precio: $ </Text>
+                                <Text style={{ fontSize: 17, fontWeight: 'bold', color: 'rgba(223,62,62,1)' }}>{this.formatoPrecio(registroUsuario.precio)}</Text>
                             </View>
                             <Form
                                 ref="form"

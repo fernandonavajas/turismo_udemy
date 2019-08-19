@@ -76,7 +76,7 @@ const tursScreenStack = createStackNavigator({
         screen: TurEspecificoScreen,
         navigationOptions: ({ navigation }) => ({
             title: 'Tours disponibles',
-            headerRight: rightIcon(navigation, 'home'),
+            headerRight: rightIcon(navigation, 'arrow-left'),
             headerLeft: leftIcon(navigation, 'bars')
         })
     },

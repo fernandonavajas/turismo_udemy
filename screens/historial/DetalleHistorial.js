@@ -17,7 +17,12 @@ export default class HistorialEspecifico extends Component {
             historialEspecifico: params.historial
         };
     }
-
+    goHistorial(){
+        const navigateAction = NavigationActions.navigate({
+			routeName: 'HistorialScreen',
+		});
+		this.props.navigation.dispatch(navigateAction);
+    }
 
     render() {
         const { historialEspecifico } = this.state;
@@ -47,6 +52,7 @@ export default class HistorialEspecifico extends Component {
                         title="Volver "
                         iconName="arrow-left"
                         iconColor="#fff"
+                        action={() => this.goHistorial()}
                     />
 
                 </Card>

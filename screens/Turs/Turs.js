@@ -74,8 +74,7 @@ export default class Turs extends Component {
 
                 })
             });
-            //aqui se filtraran los tours correspondientes a los hoteles 
-            console.log(turs1);
+            //aqui se filtraran los tours correspondientes a los hoteles
             let turs = [];
             let es_hotel = false;
             for (let tur of turs1) {
@@ -236,7 +235,7 @@ const styles = StyleSheet.create({
 
     },
     item: {
-        height: 90,
+        height: 100,
         margin: 1,
         padding: 8,
         backgroundColor: 'rgba(223,62,62,0.7)'

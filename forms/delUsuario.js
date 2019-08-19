@@ -59,12 +59,12 @@ export const options = {
         },
         nameUser: {
             label: 'Nombre',
-            placeholder: 'Nombre del encargado'
+            placeholder: 'Nombre del solicitante'
 
         },
         phone: {
             label: 'Teléfono',
-            placeholder: 'Teléfono del encargado'
+            placeholder: 'Teléfono del solicitante'
         },
 
         idioma: {

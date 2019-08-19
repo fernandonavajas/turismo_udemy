@@ -5,7 +5,7 @@ import { StyleSheet, FlatList } from 'react-native';
 import { ListItem, Text } from "react-native-elements";
 import *  as firebase from 'firebase'
 import { NavigationActions } from 'react-navigation';
-
+import { user } from '../../App'
 
 export default class Historial extends Component {
     constructor(props) {
@@ -15,35 +15,67 @@ export default class Historial extends Component {
             loaded: false,
             tur_logo: require('../../assets/images/primera-alternativa.png')
         };
-        this.refHistorial = firebase.database().ref().child('registros')
+        
     }
 
     componentDidMount() {
-        this.refHistorial.on('value', snapshot => {
-            let historial = [];
-            snapshot.forEach(row => {
-                historial.push({
-                    id: row.key,
-                    name: row.val().name,
-                    lastname: row.val().lastname,
-                    fecha: row.val().fecha,
-                    nameUser: row.val().nameUser,
-                    phone: row.val().phone,
-                    cantidad: row.val().cantidad,
-                    idioma: row.val().idioma,
-                    privado: row.val().private,
-                    tipoPago: row.val().tipoPago,
-                    precio: row.val().precio,
-                    comentario: row.val().comentario,
-                    conductor: row.val().conductor,
-                })
-            });
-            historial.sort((a, b) => a.fecha > b.fecha ? -1 : 1)
-            this.setState({
-                historial,
-                loaded: true
-            });
-        })
+        if (user.email == 'fernandonavajaso@utem.cl') {
+            this.refHistorial = firebase.database().ref().child('registros');
+            this.refHistorial.on('value', snapshot => {
+                let historial = [];
+                snapshot.forEach(row => {
+                    historial.push({
+                        id: row.key,
+                        name: row.val().name,
+                        lastname: row.val().lastname,
+                        fecha: row.val().fecha,
+                        nameUser: row.val().nameUser,
+                        phone: row.val().phone,
+                        cantidad: row.val().cantidad,
+                        idioma: row.val().idioma,
+                        privado: row.val().private,
+                        tipoPago: row.val().tipoPago,
+                        precio: row.val().precio,
+                        comentario: row.val().comentario,
+                        conductor: row.val().conductor,
+                    })
+                });
+                historial.sort((a, b) => a.fecha > b.fecha ? -1 : 1)
+                this.setState({
+                    historial,
+                    loaded: true
+                });
+            })
+        }
+        else {
+            this.refHistorial1= firebase.database().ref().child('registros').orderByChild('emailDelRegistro').equalTo(user.email);
+            this.refHistorial1.on('value', snapshot => {
+                let historial = [];
+                snapshot.forEach(row => {
+                    historial.push({
+                        id: row.key,
+                        name: row.val().name,
+                        lastname: row.val().lastname,
+                        fecha: row.val().fecha,
+                        nameUser: row.val().nameUser,
+                        phone: row.val().phone,
+                        cantidad: row.val().cantidad,
+                        idioma: row.val().idioma,
+                        privado: row.val().private,
+                        tipoPago: row.val().tipoPago,
+                        precio: row.val().precio,
+                        comentario: row.val().comentario,
+                        conductor: row.val().conductor,
+                    })
+                });
+                historial.sort((a, b) => a.fecha > b.fecha ? -1 : 1)
+                this.setState({
+                    historial,
+                    loaded: true
+                });
+            })
+        }
+
     };
 
     historialEspecifico(historial) {
@@ -55,11 +87,26 @@ export default class Historial extends Component {
     }
 
     renderHistorial(historial) {
-        console.log(historial)
-        var date = new Date(historial.fecha);
-        var FormatoFecha = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
+        let date = new Date(historial.fecha);
+        let mes = new Date(date).getMonth() + 1
+        let FormatoFecha = date.getDate() + '/' + mes + '/' + date.getFullYear();
         historial.fecha = FormatoFecha;
         if (historial.conductor) { // si tiene conductor, sale marcado verde
+            if(date<new Date()){//si la salida es menor al dia de hoy, otro color
+                return (            // y al precionarlo redirigen a funciones distintas
+                    <ListItem
+                        containerStyle={styles.item2}
+                        titleStyle={styles.title}
+                        subtitleStyle={styles.subtitle}
+                        roundAvatar
+                        title={`${historial.name}  - ${historial.lastname}  `}//(Capacidad:${categoria.name})`}
+                        subtitle={`Fecha Salida: ${historial.fecha}\nNombre: ${historial.nameUser}\nConductor: ${historial.conductor}  `}
+                        leftAvatar={{ source: this.state.tur_logo }}
+                        onPress={() => this.historialEspecifico(historial)}
+                        rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
+                    />
+                )
+            }
             return (            // y al precionarlo redirigen a funciones distintas
                 <ListItem
                     containerStyle={styles.item}
@@ -126,6 +173,12 @@ const styles = StyleSheet.create({
         margin: 1,
         padding: 8,
         backgroundColor: 'rgba(63, 191, 127, 0.9)'
+    },
+    item2: { // aun sin asignar chofer(rojo)
+        height: 110,
+        margin: 1,
+        padding: 8,
+        backgroundColor: 'rgba(45, 130, 91, 0.9)'
     }
 });
 

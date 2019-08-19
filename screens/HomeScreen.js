@@ -5,8 +5,8 @@ import AppButton from '../components/AppButton';
 import { NavigationActions } from 'react-navigation';
 
 export default class HomeScreen extends Component {
-  static navigationOptions={
-    title:'App Turismo'
+  static navigationOptions = {
+    title: 'Turismo Chile'
   }
   login() {
     const navigateAction = NavigationActions.navigate({
@@ -24,23 +24,24 @@ export default class HomeScreen extends Component {
     return (
       <BackgroundImage source={require('../assets/images/fondo2.jpg')}>
         <View style={{ justifyContent: 'center', flex: 1 }}>
-          <AppButton
-            bgColor="blue"
-            title="Entrar  "
-            action={this.login.bind(this)}
-            iconName="sign-in"
-            iconColor="#fff"
-          />
-
-          <AppButton
-            bgColor="red"
-            title="Registrarme  "
-            action={this.register.bind(this)}
-            iconName="user-plus"
-            iconSize={30}
-            iconColor="#fff"
-          />
-
+          <View style={{ backgroundColor: 'rgba(62,62,223,1)' }}>
+            <AppButton
+              bgColor='rgba(62,62,223,1)'
+              title="Entrar  "
+              action={this.login.bind(this)}
+              iconName="sign-in"
+              iconColor="#fff"
+            />
+          </View>
+          <View style={{ backgroundColor: 'rgba(223,62,62,1)', marginTop:10 }}>
+            <AppButton
+              bgColor='rgba(223,62,62,1)'
+              title="Registrarme  "
+              action={this.register.bind(this)}
+              iconName="user-plus"
+              iconColor="#fff"
+            />
+          </View>
         </View>
       </BackgroundImage>
     );
