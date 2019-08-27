@@ -26,7 +26,6 @@ const navigationOptions = {
             fontSize: 20,
             color: '#fff',
             fontWeight: 'bold',
-            //flex: 1
         }
     }
 };

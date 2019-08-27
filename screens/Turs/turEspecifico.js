@@ -18,7 +18,6 @@ export default class TurEspecifico extends Component {
     }
 
     turEspecificoDetail(turEspecifico) {
-        //console.log(turEspecifico);
         const navigateAction = NavigationActions.navigate({
             routeName: 'DetailTur',
             params: { tur: turEspecifico}

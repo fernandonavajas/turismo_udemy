@@ -15,17 +15,16 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      isLogged: false,//el usuario esta loggeado
-      loaded: false,// ha cargado el contenido
+      isLogged: false,
+      loaded: false,
       user1: {}
     }
   }
   async componentDidMount() {
-    //firebase.auth().signOut();// cerrar sesion en firebase
     await firebase.auth().onAuthStateChanged((userFirebase) => {
       if (userFirebase !== null) {
         this.setState({
-          isLogged: true,//este cambia la vista
+          isLogged: true,
           loaded: true,
           user1: userFirebase,
 
@@ -48,9 +47,8 @@ export default class App extends React.Component {
     if (isLogged) {
       user=user1;
 
-      //console.log(user1.email) //que usuario esta logeado
       return (<LoggedNavigation />)
-    } else { // si no esta loggeado que abra la navegacion del guest
+    } else { 
       return (
         <GuestNavigation />
       );

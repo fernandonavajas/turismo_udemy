@@ -22,7 +22,6 @@ export default class Turs extends Component {
         };
         this.refTurs = firebase.database().ref().child('turs')
         this.refRegistros = firebase.database().ref().child('registros')
-        //console.log(user.email);
     }
     componentDidMount() {
 
@@ -131,9 +130,8 @@ export default class Turs extends Component {
                 })
             }
         });
-        //console.log(turFilter); // esto muestra el json con los turs especificos
         const navigateAction = NavigationActions.navigate({
-            routeName: 'TurEspecifico',//DetailTur
+            routeName: 'TurEspecifico',
             params: { turFilter: turFilter }
         });
         this.props.navigation.dispatch(navigateAction);

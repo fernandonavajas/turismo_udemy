@@ -92,9 +92,7 @@ export default class AddRegistro extends Component {
     }
 
     componentDidUpdate() {
-        console.log("Se actualizo el componente")
         if (!this.state.changed) {
-            console.log("calculo el precio")
             this.calculoPrecio();
             this.state.changed=true;
         }
@@ -153,7 +151,6 @@ export default class AddRegistro extends Component {
                 tur.cantidad == this.state.registroUsuario.cantidad &&
                 tur.privado == this.state.registroUsuario.privado) {
                 this.cambiarPrecio(tur.precio)
-                console.log(tur);
             }
         }
         return 0;
