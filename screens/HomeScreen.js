@@ -6,7 +6,7 @@ import { NavigationActions } from 'react-navigation';
 
 export default class HomeScreen extends Component {
   static navigationOptions = {
-    title: 'Turismo Chile'
+    title: 'Celebrate Chile'
   }
   login() {
     const navigateAction = NavigationActions.navigate({
@@ -24,7 +24,7 @@ export default class HomeScreen extends Component {
     return (
       <BackgroundImage source={require('../assets/images/fondo2.jpg')}>
         <View style={{ justifyContent: 'center', flex: 1 }}>
-          <View style={{ backgroundColor: 'rgba(62,62,223,1)' }}>
+          <View style={{ backgroundColor: 'rgba(62,62,223,1)', margin:10, borderRadius:5 }}>
             <AppButton
               bgColor='rgba(62,62,223,1)'
               title="Entrar  "
@@ -33,7 +33,7 @@ export default class HomeScreen extends Component {
               iconColor="#fff"
             />
           </View>
-          <View style={{ backgroundColor: 'rgba(223,62,62,1)', marginTop:10 }}>
+          <View style={{ backgroundColor: 'rgba(223,62,62,1)', margin:10, borderRadius:5 }}>
             <AppButton
               bgColor='rgba(223,62,62,1)'
               title="Registrarme  "

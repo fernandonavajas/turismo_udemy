@@ -24,8 +24,8 @@ export default class Turs extends Component {
         this.refRegistros = firebase.database().ref().child('registros')
     }
     componentDidMount() {
-
-        if (user.email == 'fernando.navajaso@utem.cl') {
+        console.log(user.email);
+        if (user.email == 'hello@celebratechile.com') {
             this.refRegistros.on('value', snapshot => {
                 let registros = [];
                 snapshot.forEach(row => {
@@ -33,7 +33,7 @@ export default class Turs extends Component {
                         id: row.key,
                         name: row.val().name,
                         lastname: row.val().lastname,
-                        precio: row.val().price,
+                        precio: row.val().precio,
                         privado: row.val().private,
                         comentario: row.val().comentario,
                         cantidad: row.val().cantidad,
@@ -106,7 +106,7 @@ export default class Turs extends Component {
     }
     registroEspecifico(registro) {
         const navigateAction = NavigationActions.navigate({
-            routeName: 'RegistroEspecifico',//DetailTur
+            routeName: 'RegistroEspecifico',
             params: { registro: registro }
         });
         this.props.navigation.dispatch(navigateAction);
@@ -153,6 +153,7 @@ export default class Turs extends Component {
     }
     renderRegistros(registro) {
         var date = new Date(registro.fecha);
+        console.log(user.email)
         var FormatoFecha = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
         registro.fecha = FormatoFecha;
         if (!registro.conductor) {
@@ -179,15 +180,7 @@ export default class Turs extends Component {
         if (!loaded) {
             return <PreLoader />
         };
-        /*
-        if (!turs.length) {
-            return (
-                <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
-                    <Text></Text>
-                </BackgroundImage>
-            )
-        }*/
-        if (user.email == 'fernando.navajaso@utem.cl') {
+        if (user.email == 'hello@celebratechile.com') {
             if (!loaded) {
                 return <PreLoader />
             }

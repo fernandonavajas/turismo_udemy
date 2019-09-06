@@ -17,45 +17,47 @@ export default class HistorialEspecifico extends Component {
             historialEspecifico: params.historial
         };
     }
-    goHistorial(){
+    goHistorial() {
         const navigateAction = NavigationActions.navigate({
-			routeName: 'HistorialScreen',
-		});
-		this.props.navigation.dispatch(navigateAction);
+            routeName: 'HistorialScreen',
+        });
+        this.props.navigation.dispatch(navigateAction);
     }
 
     render() {
         const { historialEspecifico } = this.state;
         return (
             <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
-                <Card style={{ backgroundColor: "grey" }}
-                    roundAvatar
-                    title={historialEspecifico.name + ": " + historialEspecifico.lastname}
-                >
-                    <Text style={styles.textTitle}>Datos Cliente</Text>
-                    <Text style={styles.textSimple}>Cliente:  {historialEspecifico.nameUser}</Text>
-                    <Text style={styles.textSimple}>Teléfono: {historialEspecifico.phone}</Text>
-                    <Text>  </Text>
-                    <Text style={styles.textTitle}>Datos Tour</Text>
-                    <Text style={styles.textSimple}>Cantidad:  {historialEspecifico.cantidad}</Text>
-                    <Text style={styles.textSimple}>Fecha de Salida:  {historialEspecifico.fecha}</Text>
-                    <Text style={styles.textSimple}>Idioma:  {historialEspecifico.idioma}</Text>
-                    <Text style={styles.textSimple}>Privado:  {historialEspecifico.privado ? "privado" : "compartido"}</Text>
-                    <Text style={styles.textSimple}>Conductor:  {historialEspecifico.conductor}</Text>
-                    <Text style={styles.textSimple}>Comentario: {historialEspecifico.comentario}</Text>
-                    <Text style={styles.textSimple}>Tipo Pago:  {historialEspecifico.tipoPago}</Text>
-                    <Text style={styles.labelPrecio}>Precio: $ {historialEspecifico.precio}</Text>
+                <ScrollView >
+                    <Card style={{ backgroundColor: "grey" }}
+                        roundAvatar
+                        title={historialEspecifico.name + ": " + historialEspecifico.lastname}
+                    >
+                        <Text style={styles.textTitle}>Datos Cliente</Text>
+                        <Text style={styles.textSimple}>Cliente:  {historialEspecifico.nameUser}</Text>
+                        <Text style={styles.textSimple}>Teléfono: {historialEspecifico.phone}</Text>
+                        <Text>  </Text>
+                        <Text style={styles.textTitle}>Datos Tour</Text>
+                        <Text style={styles.textSimple}>Cantidad:  {historialEspecifico.cantidad}</Text>
+                        <Text style={styles.textSimple}>Fecha de Salida:  {historialEspecifico.fecha}</Text>
+                        <Text style={styles.textSimple}>Idioma:  {historialEspecifico.idioma}</Text>
+                        <Text style={styles.textSimple}>Privado:  {historialEspecifico.privado ? "privado" : "compartido"}</Text>
+                        <Text style={styles.textSimple}>Conductor:  {historialEspecifico.conductor}</Text>
+                        <Text style={styles.textSimple}>Comentario: {historialEspecifico.comentario}</Text>
+                        <Text style={styles.textSimple}>Tipo Pago:  {historialEspecifico.tipoPago}</Text>
+                        <Text style={styles.labelPrecio}>Precio: $ {historialEspecifico.precio}</Text>
 
-                    <AppButton
+                        <AppButton
 
-                        bgColor="grey"
-                        title="Volver "
-                        iconName="arrow-left"
-                        iconColor="#fff"
-                        action={() => this.goHistorial()}
-                    />
+                            bgColor="grey"
+                            title="Volver "
+                            iconName="arrow-left"
+                            iconColor="#fff"
+                            action={() => this.goHistorial()}
+                        />
 
-                </Card>
+                    </Card>
+                </ScrollView>
             </BackgroundImage>
         );
     }
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     textSimple: {
-        marginLeft:20,
+        marginLeft: 20,
         fontFamily: 'Roboto',
         borderRadius: 2,
         fontSize: 20,

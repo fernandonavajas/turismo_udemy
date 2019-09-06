@@ -51,7 +51,7 @@ const tursScreenStack = createStackNavigator({
         screen: TursScreen,
         navigationOptions: ({ navigation }) => ({
             ...navigationOptions,
-            title: 'Tours',
+            title: 'Elige un Tour',
             headerLeft: leftIcon(navigation, 'bars')
         })
     },

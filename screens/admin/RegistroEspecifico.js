@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BackgroundImage from '../../components/BackgroundImage';
-import { StyleSheet, ScrollView, View, Clipboard } from 'react-native';
+import { StyleSheet, ScrollView, View, Clipboard, KeyboardAvoidingView } from 'react-native';
 import { Text, Card, Input, Button, Icon } from "react-native-elements";
 import *  as firebase from 'firebase'
 import AppButton from '../../components/AppButton';
@@ -47,36 +47,37 @@ export default class RegistroEspecifico extends Component {
         const { registroEspecifico } = this.state;
         return (
             <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
-                <ScrollView>
+                <ScrollView style={styles.container} >
+                    <KeyboardAvoidingView behavior='padding'>
+                        <Card>
+                            <View style={{ borderRadius: 100, backgroundColor: 'rgba(223,62,62,0.95)', }}>
+                                <Text style={styles.textTitle}>{registroEspecifico.name}</Text>
+                                <Text style={styles.textTitle}>{registroEspecifico.lastname}</Text>
+                            </View>
+                            <Text style={{ textAlign: 'center', marginBottom: 10 }}>Fecha salida: {registroEspecifico.fecha}</Text>
+                            <Text style={styles.textSimple}>Nombre: {registroEspecifico.nameUser}</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={styles.textSimple}>Teléfono: {registroEspecifico.phone}   </Text>
+                                <Icon name='clipboard' type='font-awesome' size={25}
+                                    color='rgba(223,62,62,1)' onPress={async () => {
+                                        await Clipboard.setString(registroEspecifico.phone)
+                                        Toast.showWithGravity('Copiado!', Toast.LONG, Toast.BOTTOM)
+                                    }} />
 
-                    <Card>
-                        <View style={{ borderRadius: 100, backgroundColor: 'rgba(223,62,62,0.95)', }}>
-                            <Text style={styles.textTitle}>{registroEspecifico.name}</Text>
-                            <Text style={styles.textTitle}>{registroEspecifico.lastname}</Text>
-                        </View>
-                        <Text style={{ textAlign: 'center', marginBottom: 10 }}>Fecha salida: {registroEspecifico.fecha}</Text>
-                        <Text style={styles.textSimple}>Nombre: {registroEspecifico.nameUser}</Text>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={styles.textSimple}>Teléfono: {registroEspecifico.phone}   </Text>
-                            <Icon  name='clipboard' type='font-awesome' size={25}
-                                color='rgba(223,62,62,1)' onPress={async () => {
-                                    await Clipboard.setString(registroEspecifico.phone)
-                                    Toast.showWithGravity('Copiado!', Toast.LONG, Toast.BOTTOM)
-                                }} />
-
-                        </View>
-                        <Text style={styles.textSimple}>Idioma: {registroEspecifico.idioma}</Text>
-                        <Text style={styles.textSimple}>Pasajeros: {registroEspecifico.cantidad}</Text>
-                        <Text style={styles.textSimple}>{registroEspecifico.privado ? 'Privado' : 'Compartido'}</Text>
-                        <Text style={styles.textSimple}>Precio: $ {registroEspecifico.precio}</Text>
-                        <Text style={styles.textSimple}>Tipo pago: {registroEspecifico.tipoPago}</Text>
-                        <Text style={styles.textComment}>{`Comentarios: ${registroEspecifico.comentario}`}</Text>
-                        <Text>  </Text>
-                        <View style={{ borderTopWidth: 3, borderRadius: 10, borderColor: 'rgba(223,62,62,0.95)' }}>
-                            {registroEspecifico.conductor ? this.mostrarConductor : this.noMostrarConductor}
-                            <Text> </Text>
-                        </View>
-                    </Card>
+                            </View>
+                            <Text style={styles.textSimple}>Idioma: {registroEspecifico.idioma}</Text>
+                            <Text style={styles.textSimple}>Pasajeros: {registroEspecifico.cantidad}</Text>
+                            <Text style={styles.textSimple}>{registroEspecifico.privado ? 'Privado' : 'Compartido'}</Text>
+                            <Text style={styles.textSimple}>Precio: $ {registroEspecifico.precio}</Text>
+                            <Text style={styles.textSimple}>Tipo pago: {registroEspecifico.tipoPago}</Text>
+                            <Text style={styles.textComment}>{`Comentarios: ${registroEspecifico.comentario}`}</Text>
+                            <Text>  </Text>
+                            <View style={{ borderTopWidth: 3, borderRadius: 10, borderColor: 'rgba(223,62,62,0.95)' }}>
+                                {registroEspecifico.conductor ? this.mostrarConductor : this.noMostrarConductor}
+                                <Text> </Text>
+                            </View>
+                        </Card>
+                    </KeyboardAvoidingView>
                 </ScrollView>
             </BackgroundImage>
         );
@@ -85,6 +86,10 @@ export default class RegistroEspecifico extends Component {
 
 
 const styles = StyleSheet.create({
+    container: {
+        backgroundColor: 'rgba(231, 228, 224, 0.8)',
+        padding: 10
+    },
     title: {
         color: '#fff',
         textAlign: 'center'

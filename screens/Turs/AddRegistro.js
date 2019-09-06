@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BackgroundImage from '../../components/BackgroundImage';
 import AppButton from '../../components/AppButton';
-import { View, StyleSheet, ScrollView, Picker, Text, Switch } from 'react-native';
+import { View, StyleSheet, ScrollView, Picker, Text, Switch, KeyboardAvoidingView } from 'react-native';
 import *  as firebase from 'firebase';
 import { options, RegistroUsuario } from '../../forms/delUsuario';
 import t from 'tcomb-form-native';
@@ -48,7 +48,7 @@ export default class AddRegistro extends Component {
                 emailDelRegistro: user.email,
             },
             loaded: false,
-            changed:false,
+            changed: false,
 
         }
     }
@@ -94,7 +94,7 @@ export default class AddRegistro extends Component {
     componentDidUpdate() {
         if (!this.state.changed) {
             this.calculoPrecio();
-            this.state.changed=true;
+            this.state.changed = true;
         }
     }
 
@@ -169,79 +169,82 @@ export default class AddRegistro extends Component {
             <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
                 <ScrollView style={styles.container} >
                     <Card keyboardDismissMode='on-drag' title="Completa el formulario">
-                        <View>
-                            <View style={{ marginBottom: 2, borderWidth: 1, borderColor: '#d0d2d3', borderRadius: 5 }}>
-                                <Picker style={styles.pickerStyle}
-                                    mode='dropdown'
-                                    selectedValue={this.state.pickerSelection1}
-                                    onValueChange={(itemValue) => {
-                                        this.actualizarLastname(itemValue);
-                                        this.setState({ pickerSelection1: itemValue, changed: false });
-                                        registroUsuario.name = itemValue;
-                                    }}>
-                                    {pickerItemArray1.map((item) => { return (<Picker.Item label={item} value={item} />) })}
-                                </Picker>
+                        <KeyboardAvoidingView behavior='padding'>
+                            <View>
+                                <View style={{ marginBottom: 2, borderWidth: 1, borderColor: '#d0d2d3', borderRadius: 5 }}>
+                                    <Picker style={styles.pickerStyle}
+                                        mode='dropdown'
+                                        selectedValue={this.state.pickerSelection1}
+                                        onValueChange={(itemValue) => {
+                                            this.actualizarLastname(itemValue);
+                                            this.setState({ pickerSelection1: itemValue, changed: false });
+                                            registroUsuario.name = itemValue;
+                                        }}>
+                                        {pickerItemArray1.map((item) => { return (<Picker.Item label={item} value={item} />) })}
+                                    </Picker>
 
-                            </View>
-                            <View style={{ marginBottom: 2, borderWidth: 1, borderColor: '#d0d2d3', borderRadius: 5 }}>
-                                <Picker style={styles.pickerStyle}
-                                    mode='dropdown'
-                                    selectedValue={this.state.pickerSelection2}
-                                    onValueChange={(itemValue) => {
-                                        this.setState({ pickerSelection2: itemValue,changed: false });
-                                        registroUsuario.lastname = itemValue;
-                                    }}>
-                                    {pickerItemArray2.map((item) => { return (<Picker.Item label={item} value={item} />) })}
-                                </Picker>
-                            </View>
-                            <View style={{ flexDirection: 'row', marginBottom: 10, marginTop: 15 }}>
-                                <Text style={{ fontSize: 17, fontWeight: 'bold', marginRight: 50 }}>N° de pasajeros</Text>
-                                <NumericInput
-                                    onChange={value => {
-                                        registroUsuario.cantidad = value;
-                                        this.setState({changed: false})
-                                    }}
-                                    totalHeight={35}
-                                    step={1}
-                                    initValue={registroUsuario.cantidad}
-                                    minValue={1}
-                                    maxValue={15} />
-                            </View>
-                            <View style={{ flexDirection: 'row', marginBottom: 9, marginTop: 5 }}>
-                                <Text style={{ fontSize: 17, fontWeight: 'bold' }}>{registroUsuario.privado ? 'Privado' : 'Compartido'}</Text>
-                                <Switch
-                                    thumbColor={'rgba(223,62,62,1)'}
-                                    trackColor={{ false: 'grey', true: 'rgba(223,62,62,1)' }}
-                                    value={registroUsuario.privado}
-                                    onValueChange={valor => {
-                                        this.toogleSwitch(valor);
-                                        this.setState({changed: false})
-                                    }}
+                                </View>
+                                <View style={{ marginBottom: 2, borderWidth: 1, borderColor: '#d0d2d3', borderRadius: 5 }}>
+                                    <Picker style={styles.pickerStyle}
+                                        mode='dropdown'
+                                        selectedValue={this.state.pickerSelection2}
+                                        onValueChange={(itemValue) => {
+                                            this.setState({ pickerSelection2: itemValue, changed: false });
+                                            registroUsuario.lastname = itemValue;
+                                        }}>
+                                        {pickerItemArray2.map((item) => { return (<Picker.Item label={item} value={item} />) })}
+                                    </Picker>
+                                </View>
+                                <View style={{ flexDirection: 'row', marginBottom: 10, marginTop: 15 }}>
+                                    <Text style={{ fontSize: 17, fontWeight: 'bold', marginRight: 50 }}>N° de pasajeros</Text>
+                                    <NumericInput
+                                        onChange={value => {
+                                            registroUsuario.cantidad = value;
+                                            this.setState({ changed: false })
+                                        }}
+                                        totalHeight={35}
+                                        step={1}
+                                        initValue={registroUsuario.cantidad}
+                                        minValue={1}
+                                        maxValue={15} />
+                                </View>
+                                <View style={{ flexDirection: 'row', marginBottom: 9, marginTop: 5 }}>
+                                    <Text style={{ fontSize: 17, fontWeight: 'bold' }}>{registroUsuario.privado ? 'Privado' : 'Compartido'}</Text>
+                                    <Switch
+                                        thumbColor={'rgba(223,62,62,1)'}
+                                        trackColor={{ false: 'grey', true: 'rgba(223,62,62,1)' }}
+                                        value={registroUsuario.privado}
+                                        onValueChange={valor => {
+                                            this.toogleSwitch(valor);
+                                            this.setState({ changed: false })
+                                        }}
+                                    />
+                                    <Text style={{ fontSize: 12, color: 'grey' }}>{registroUsuario.privado ? '' : '(*) Sujeto a disponibilidad'}</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row', marginBottom: 15, marginTop: 10 }}>
+                                    <Text style={{ fontSize: 17, fontWeight: 'bold' }}>Precio: $ </Text>
+                                    <Text style={{ fontSize: 17, fontWeight: 'bold', color: 'rgba(223,62,62,1)' }}>{this.formatoPrecio(registroUsuario.precio)}</Text>
+                                </View>
+                                <Form
+                                    ref="form"
+                                    type={RegistroUsuario}
+                                    options={options}
+                                    value={registroUsuario}
+                                    onChange={(v) => this.onChange(v)}
                                 />
-                                <Text style={{ fontSize: 12, color: 'grey' }}>{registroUsuario.privado ? '' : '(*) Sujeto a disponibilidad'}</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', marginBottom: 15, marginTop: 10 }}>
-                                <Text style={{ fontSize: 17, fontWeight: 'bold' }}>Precio: $ </Text>
-                                <Text style={{ fontSize: 17, fontWeight: 'bold', color: 'rgba(223,62,62,1)' }}>{this.formatoPrecio(registroUsuario.precio)}</Text>
-                            </View>
-                            <Form
-                                ref="form"
-                                type={RegistroUsuario}
-                                options={options}
-                                value={registroUsuario}
-                                onChange={(v) => this.onChange(v)}
-                            />
 
-                        </View>
-                        <AppButton
-                            bgColor="rgba(223,62,62,1)"
-                            title="Solicitar  "
-                            action={this.save.bind(this)}
-                            iconName="plus"
-                            iconSize={30}
-                            iconColor="#fff"
-                        />
+                            </View>
+                            <AppButton
+                                bgColor="rgba(223,62,62,1)"
+                                title="Solicitar  "
+                                action={this.save.bind(this)}
+                                iconName="plus"
+                                iconSize={30}
+                                iconColor="#fff"
+                            />
+                        </KeyboardAvoidingView>
                     </Card>
+
                 </ScrollView>
             </BackgroundImage>
         );

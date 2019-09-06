@@ -7,7 +7,7 @@
     "platforms": [
       "android"
     ],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -18,11 +18,10 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
-      "package": "com.utemsolutions.celebratechile"
+      "package": "com.utemsolutions.celebratechile",
+      "permissions": [],
+      "versionCode": 2
     }
   }
 }
