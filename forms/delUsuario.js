@@ -47,7 +47,7 @@ export const options = {
                         borderWidth: 1,
                         borderRadius: 5,
                         borderColor: '#d0d2d3',
-                        color: '#d0d2d3'
+                        color: '#727272'
                     },
                     error: {
                         ...Form.stylesheet.dateValue.error,

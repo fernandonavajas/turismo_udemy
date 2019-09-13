@@ -153,7 +153,6 @@ export default class Turs extends Component {
     }
     renderRegistros(registro) {
         var date = new Date(registro.fecha);
-        console.log(user.email)
         var FormatoFecha = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
         registro.fecha = FormatoFecha;
         if (!registro.conductor) {
@@ -229,7 +228,7 @@ const styles = StyleSheet.create({
         height: 100,
         margin: 1,
         padding: 8,
-        backgroundColor: 'rgba(223,62,62,0.7)'
+        backgroundColor: 'rgba(212,31,31,0.6)'
     }
 });
 

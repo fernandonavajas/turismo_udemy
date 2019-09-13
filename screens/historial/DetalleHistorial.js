@@ -1,12 +1,11 @@
 
 import React, { Component } from 'react';
 import BackgroundImage from '../../components/BackgroundImage';
-import PreLoader from '../../components/PreLoader';
-import { StyleSheet, FlatList } from 'react-native';
-import { ListItem, Text, Card, Button, Icon } from "react-native-elements";
-import *  as firebase from 'firebase'
+import { StyleSheet, View } from 'react-native';
+import { Text, Card } from "react-native-elements";
 import { NavigationActions } from 'react-navigation';
 import AppButton from '../../components/AppButton';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 
 export default class HistorialEspecifico extends Component {
@@ -17,18 +16,28 @@ export default class HistorialEspecifico extends Component {
             historialEspecifico: params.historial
         };
     }
+    componentDidMount(){
+
+        console.log("detalleHistorial");
+        console.log(this.state.historialEspecifico);
+    }
     goHistorial() {
         const navigateAction = NavigationActions.navigate({
             routeName: 'HistorialScreen',
         });
         this.props.navigation.dispatch(navigateAction);
     }
+    formatoPrecio(precio) {
+        let PrecioEnMiles = precio / 1000
+        let precioString = PrecioEnMiles + ".000";
+        return (precioString);
+    }
 
     render() {
         const { historialEspecifico } = this.state;
         return (
             <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
-                <ScrollView >
+                <KeyboardAwareScrollView>
                     <Card style={{ backgroundColor: "grey" }}
                         roundAvatar
                         title={historialEspecifico.name + ": " + historialEspecifico.lastname}
@@ -45,7 +54,10 @@ export default class HistorialEspecifico extends Component {
                         <Text style={styles.textSimple}>Conductor:  {historialEspecifico.conductor}</Text>
                         <Text style={styles.textSimple}>Comentario: {historialEspecifico.comentario}</Text>
                         <Text style={styles.textSimple}>Tipo Pago:  {historialEspecifico.tipoPago}</Text>
-                        <Text style={styles.labelPrecio}>Precio: $ {historialEspecifico.precio}</Text>
+                        <View style={{ flexDirection: 'row', marginBottom: 15, marginTop: 10 }}>
+                                    <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Precio:    $ </Text>
+                                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'rgba(223,62,62,1)' }}>{this.formatoPrecio(historialEspecifico.precio)}</Text>
+                        </View>
 
                         <AppButton
 
@@ -57,7 +69,7 @@ export default class HistorialEspecifico extends Component {
                         />
 
                     </Card>
-                </ScrollView>
+                </KeyboardAwareScrollView>
             </BackgroundImage>
         );
     }
@@ -87,7 +99,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         fontFamily: 'Roboto',
         borderRadius: 2,
-        fontSize: 20,
+        fontSize: 18,
 
     },
     labelPrecio: {
@@ -95,6 +107,8 @@ const styles = StyleSheet.create({
         borderRadius: 2,
         fontSize: 20,
         margin: 20,
+        paddingRight: 20,
+        paddingLeft: 20,
         textAlign: 'center',
         alignSelf: 'center',
         backgroundColor: 'orange'

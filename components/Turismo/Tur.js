@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import AppButton from '../AppButton';
 import { StyleSheet, FlatList } from 'react-native';
 import { Card, Text } from 'react-native-elements';
-import TurRating from './TurRating';
-import { bold } from 'ansi-colors';
 
 
 export default class Tur extends Component {

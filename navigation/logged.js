@@ -125,6 +125,7 @@ const historialScreenStack = createStackNavigator({
     HistorialEspecifico: {
         screen: HistorialEspecificoScreen,
         navigationOptions: ({ navigation }) => ({
+            ...navigationOptions,
             title: 'Detalle del Tour',
             headerRight: rightIcon(navigation, 'home'),
             headerLeft: leftIcon(navigation, 'bars')

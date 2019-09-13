@@ -19,7 +19,7 @@ export default class Historial extends Component {
     }
 
     componentDidMount() {
-        if (user.email == 'fernandonavajaso@utem.cl') {
+        if (user.email == 'hello@celebratechile.com') {
             this.refHistorial = firebase.database().ref().child('registros');
             this.refHistorial.on('value', snapshot => {
                 let historial = [];
@@ -33,7 +33,7 @@ export default class Historial extends Component {
                         phone: row.val().phone,
                         cantidad: row.val().cantidad,
                         idioma: row.val().idioma,
-                        privado: row.val().private,
+                        privado: row.val().privado,
                         tipoPago: row.val().tipoPago,
                         precio: row.val().precio,
                         comentario: row.val().comentario,
@@ -48,8 +48,8 @@ export default class Historial extends Component {
             })
         }
         else {
-            this.refHistorial1= firebase.database().ref().child('registros').orderByChild('emailDelRegistro').equalTo(user.email);
-            this.refHistorial1.on('value', snapshot => {
+            this.refHistorial= firebase.database().ref().child('registros').orderByChild('emailDelRegistro').equalTo(user.email);
+            this.refHistorial.on('value', snapshot => {
                 let historial = [];
                 snapshot.forEach(row => {
                     historial.push({
@@ -61,7 +61,7 @@ export default class Historial extends Component {
                         phone: row.val().phone,
                         cantidad: row.val().cantidad,
                         idioma: row.val().idioma,
-                        privado: row.val().private,
+                        privado: row.val().privado,
                         tipoPago: row.val().tipoPago,
                         precio: row.val().precio,
                         comentario: row.val().comentario,
@@ -80,7 +80,7 @@ export default class Historial extends Component {
 
     historialEspecifico(historial) {
         const navigateAction = NavigationActions.navigate({
-            routeName: 'HistorialEspecifico',//DetailTur
+            routeName: 'HistorialEspecifico',
             params: { historial: historial }
         });
         this.props.navigation.dispatch(navigateAction);

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import AppButton from '../AppButton';
 import {StyleSheet, View} from 'react-native';
-import { Text } from 'react-native-elements';
 
 
 export default class  TurismoAddButton extends Component {

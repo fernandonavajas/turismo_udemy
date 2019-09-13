@@ -15,6 +15,11 @@ export default class RegistroEspecifico extends Component {
             registroEspecifico: params.registro
         };
     }
+    formatoPrecio(precio) {
+        let PrecioEnMiles = precio / 1000
+        let precioString = PrecioEnMiles + ".000";
+        return (precioString);
+    }
     save(usuario) {
         if (this.state.conductor) {
             const fb = firebase.database().ref()
@@ -31,10 +36,12 @@ export default class RegistroEspecifico extends Component {
             onChangeText={(text => this.setState({ conductor: text }))}
             placeholder='¿Quien será el conductor?'
             label='Conductor'
-            labelStyle={{ textAlign: 'center', fontFamily: 'Roboto', fontSize: 20 }}
+            placeholderTextColor='#fff'
+            color='#fff'
+            labelStyle={{ textAlign: 'center', fontFamily: 'Roboto', fontSize: 18, color:'#fff' }}
         />
         <Text> </Text>
-        <AppButton
+        <AppButton 
             bgColor="rgba(63, 191, 127, 1)"
             title="Registrar conductor  "
             action={() => this.save(this.state.registroEspecifico)}
@@ -68,14 +75,17 @@ export default class RegistroEspecifico extends Component {
                             <Text style={styles.textSimple}>Idioma: {registroEspecifico.idioma}</Text>
                             <Text style={styles.textSimple}>Pasajeros: {registroEspecifico.cantidad}</Text>
                             <Text style={styles.textSimple}>{registroEspecifico.privado ? 'Privado' : 'Compartido'}</Text>
-                            <Text style={styles.textSimple}>Precio: $ {registroEspecifico.precio}</Text>
+                            <View style={{ flexDirection: 'row', marginBottom: 15, marginTop: 10 }}>
+                                    <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Precio:    $ </Text>
+                                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'rgba(223,62,62,1)' }}>{this.formatoPrecio(registroEspecifico.precio)}</Text>
+                            </View>
                             <Text style={styles.textSimple}>Tipo pago: {registroEspecifico.tipoPago}</Text>
                             <Text style={styles.textComment}>{`Comentarios: ${registroEspecifico.comentario}`}</Text>
                             <Text>  </Text>
-                            <View style={{ borderTopWidth: 3, borderRadius: 10, borderColor: 'rgba(223,62,62,0.95)' }}>
+                            <View style={{ borderRadius: 10, backgroundColor: 'rgba(63, 191, 127, 0.65)', color:'#fff' }}>
                                 {registroEspecifico.conductor ? this.mostrarConductor : this.noMostrarConductor}
-                                <Text> </Text>
                             </View>
+                            <Text> </Text>
                         </Card>
                     </KeyboardAvoidingView>
                 </ScrollView>
@@ -112,7 +122,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         fontFamily: 'Roboto',
         borderRadius: 2,
-        fontSize: 20,
+        fontSize: 18,
 
     },
     textComment: {

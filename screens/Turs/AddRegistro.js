@@ -222,8 +222,8 @@ export default class AddRegistro extends Component {
                                     <Text style={{ fontSize: 12, color: 'grey' }}>{registroUsuario.privado ? '' : '(*) Sujeto a disponibilidad'}</Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', marginBottom: 15, marginTop: 10 }}>
-                                    <Text style={{ fontSize: 17, fontWeight: 'bold' }}>Precio: $ </Text>
-                                    <Text style={{ fontSize: 17, fontWeight: 'bold', color: 'rgba(223,62,62,1)' }}>{this.formatoPrecio(registroUsuario.precio)}</Text>
+                                    <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Precio:    $ </Text>
+                                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'rgba(223,62,62,1)' }}>{this.formatoPrecio(registroUsuario.precio)}</Text>
                                 </View>
                                 <Form
                                     ref="form"
