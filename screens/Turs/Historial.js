@@ -90,7 +90,7 @@ export default class Historial extends Component {
         let date = new Date(historial.fecha);
         let mes = new Date(date).getMonth() + 1
         let FormatoFecha = date.getDate() + '/' + mes + '/' + date.getFullYear();
-        historial.fecha = FormatoFecha;
+
         if (historial.conductor) { // si tiene conductor, sale marcado verde
             if(date<new Date()){//si la salida es menor al dia de hoy, otro color
                 return (            // y al precionarlo redirigen a funciones distintas
@@ -100,7 +100,7 @@ export default class Historial extends Component {
                         subtitleStyle={styles.subtitle}
                         roundAvatar
                         title={`${historial.name}  - ${historial.lastname}  `}//(Capacidad:${categoria.name})`}
-                        subtitle={`Fecha Salida: ${historial.fecha}\nNombre: ${historial.nameUser}\nConductor: ${historial.conductor}  `}
+                        subtitle={`Fecha Salida: ${FormatoFecha} \nNombre: ${historial.nameUser}\nConductor: ${historial.conductor}  `}
                         leftAvatar={{ source: this.state.tur_logo }}
                         onPress={() => this.historialEspecifico(historial)}
                         rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
@@ -114,7 +114,7 @@ export default class Historial extends Component {
                     subtitleStyle={styles.subtitle}
                     roundAvatar
                     title={`${historial.name}  - ${historial.lastname}  `}//(Capacidad:${categoria.name})`}
-                    subtitle={`Fecha Salida: ${historial.fecha}\nNombre: ${historial.nameUser}\nConductor: ${historial.conductor}  `}
+                    subtitle={`Fecha Salida: ${FormatoFecha} \nNombre: ${historial.nameUser}\nConductor: ${historial.conductor}  `}
                     leftAvatar={{ source: this.state.tur_logo }}
                     onPress={() => this.historialEspecifico(historial)}
                     rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}

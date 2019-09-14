@@ -52,6 +52,9 @@ export default class RegistroEspecifico extends Component {
     mostrarConductor = <Text style={styles.textSimple}>Conductor: alejandro</Text>
     render() {
         const { registroEspecifico } = this.state;
+        var date = new Date(registroEspecifico.fecha);
+        var FormatoFecha = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
+        
         return (
             <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
                 <ScrollView style={styles.container} >
@@ -61,7 +64,7 @@ export default class RegistroEspecifico extends Component {
                                 <Text style={styles.textTitle}>{registroEspecifico.name}</Text>
                                 <Text style={styles.textTitle}>{registroEspecifico.lastname}</Text>
                             </View>
-                            <Text style={{ textAlign: 'center', marginBottom: 10 }}>Fecha salida: {registroEspecifico.fecha}</Text>
+                            <Text style={{ textAlign: 'center', marginBottom: 10 }}>Fecha salida: {FormatoFecha}</Text>
                             <Text style={styles.textSimple}>Nombre: {registroEspecifico.nameUser}</Text>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={styles.textSimple}>Teléfono: {registroEspecifico.phone}   </Text>

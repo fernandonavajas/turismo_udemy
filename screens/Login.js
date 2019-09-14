@@ -39,7 +39,7 @@ export default class Login extends Component {
     login() {
         const validate = this.refs.form.getValue();
         if(validate){
-            firebase.auth().signInWithEmailAndPassword(validate.email, validate.password)
+            firebase.auth().signInWithEmailAndPassword(validate.email.trim(), validate.password)
             .then(()=> {
                 Toast.showWithGravity("Bienvenido", Toast.LONG, Toast.BOTTOM);
             })

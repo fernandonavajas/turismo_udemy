@@ -35,6 +35,9 @@ export default class HistorialEspecifico extends Component {
 
     render() {
         const { historialEspecifico } = this.state;
+        var date = new Date(historialEspecifico.fecha);
+        var FormatoFecha = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
+        
         return (
             <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
                 <KeyboardAwareScrollView>
@@ -48,7 +51,7 @@ export default class HistorialEspecifico extends Component {
                         <Text>  </Text>
                         <Text style={styles.textTitle}>Datos Tour</Text>
                         <Text style={styles.textSimple}>Cantidad:  {historialEspecifico.cantidad}</Text>
-                        <Text style={styles.textSimple}>Fecha de Salida:  {historialEspecifico.fecha}</Text>
+                        <Text style={styles.textSimple}>Fecha de Salida:  {FormatoFecha}</Text>
                         <Text style={styles.textSimple}>Idioma:  {historialEspecifico.idioma}</Text>
                         <Text style={styles.textSimple}>Privado:  {historialEspecifico.privado ? "privado" : "compartido"}</Text>
                         <Text style={styles.textSimple}>Conductor:  {historialEspecifico.conductor}</Text>

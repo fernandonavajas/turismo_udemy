@@ -154,7 +154,7 @@ export default class Turs extends Component {
     renderRegistros(registro) {
         var date = new Date(registro.fecha);
         var FormatoFecha = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
-        registro.fecha = FormatoFecha;
+        //registro.fecha = FormatoFecha;
         if (!registro.conductor) {
             return (
                 <ListItem
@@ -163,7 +163,7 @@ export default class Turs extends Component {
                     subtitleStyle={styles.subtitle}
                     roundAvatar
                     title={`${registro.name}  - ${registro.lastname}  `}//(Capacidad:${categoria.name})`}
-                    subtitle={`Fecha Salida: ${registro.fecha}\nNombre: ${registro.nameUser}\nTeléfono: ${registro.phone}  `}
+                    subtitle={`Fecha Salida: ${FormatoFecha}\nNombre: ${registro.nameUser}\nTeléfono: ${registro.phone}  `}
                     leftAvatar={{ source: this.state.tur_logo }}
                     onPress={() => this.registroEspecifico(registro)}
                     rightIcon={{ name: 'arrow-right', type: 'font-awesome', style: styles.listIconStyle }}
