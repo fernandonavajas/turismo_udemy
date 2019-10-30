@@ -20,7 +20,9 @@ export default class addTur extends Component {
             }
         };
     }
-    saveDB() {
+
+tourejemplo=[];
+saveDB() {
         for (let db of this.tourejemplo) {
             let data = {};
             const key = firebase.database().ref().child('turs').push().key;

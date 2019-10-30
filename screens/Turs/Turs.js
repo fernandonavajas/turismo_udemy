@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import BackgroundImage from '../../components/BackgroundImage';
 import PreLoader from '../../components/PreLoader';
 import { StyleSheet, FlatList } from 'react-native';
-import { ListItem, Text } from "react-native-elements";
+import { ListItem, Text, Button } from "react-native-elements";
 import *  as firebase from 'firebase'
 import { NavigationActions } from 'react-navigation';
-import TurismoAddButton from '../../components/Turismo/TurismoAddButton';
 import { user } from '../../App'
+import AppButton from '../../components/AppButton';
 
 export var categoriasExport = [];
 export var tursExport = [];
@@ -189,6 +189,14 @@ export default class Turs extends Component {
                         <FlatList
                             data={registros}
                             renderItem={(data) => this.renderRegistros(data.item)}
+                        
+                        />
+                    <AppButton
+                            bgColor="blue"
+                            title="Login  "
+                            action={this.addTur()}
+                            iconName="sign-in"
+                            iconColor="#fff"
                         />
                     </BackgroundImage>
                 )

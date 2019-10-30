@@ -206,7 +206,7 @@ export default class AddRegistro extends Component {
                                         step={1}
                                         initValue={registroUsuario.cantidad}
                                         minValue={1}
-                                        maxValue={15} />
+                                        maxValue={10} />
                                 </View>
                                 <View style={{ flexDirection: 'row', marginBottom: 9, marginTop: 5 }}>
                                     <Text style={{ fontSize: 17, fontWeight: 'bold' }}>{registroUsuario.privado ? 'Privado' : 'Compartido'}</Text>

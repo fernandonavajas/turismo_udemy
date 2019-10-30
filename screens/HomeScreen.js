@@ -3,6 +3,8 @@ import { View } from 'react-native';
 import BackgroundImage from '../components/BackgroundImage';
 import AppButton from '../components/AppButton';
 import { NavigationActions } from 'react-navigation';
+import Toast from 'react-native-simple-toast';
+import *  as firebase from 'firebase';
 
 export default class HomeScreen extends Component {
   static navigationOptions = {
@@ -20,6 +22,16 @@ export default class HomeScreen extends Component {
     });
     this.props.navigation.dispatch(navigateAction);
   }
+
+  loginWithoutEmail(){
+    const navigateAction=NavigationActions.navigate({
+      routeName:'ListTurs'
+    });
+    Toast.showWithGravity("Bienvenido", Toast.LONG, Toast.BOTTOM);
+    firebase.auth().signInWithEmailAndPassword('publico@publico.com', '12345678')
+    this.props.navigation.dispatch(navigateAction);
+  }
+
   render() {
     return (
       <BackgroundImage source={require('../assets/images/fondo2.jpg')}>
@@ -38,7 +50,16 @@ export default class HomeScreen extends Component {
               bgColor='rgba(223,62,62,1)'
               title="Registrarme  "
               action={this.register.bind(this)}
-              iconName="user-plus"
+              iconName="address-card"
+              iconColor="#fff"
+            />
+          </View>
+          <View style={{ backgroundColor: 'rgba(192,192,192,1)', margin:10, borderRadius:5, marginTop:40 }}>
+            <AppButton
+              bgColor='rgba(192,192,192,1)'
+              title="Entrar sin registrarme  "
+              action={this.loginWithoutEmail.bind(this)}
+              iconName="angle-double-right"
               iconColor="#fff"
             />
           </View>

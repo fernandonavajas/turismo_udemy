@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, KeyboardAvoidingView, ScrollView } from 'react-native';
 import BackgroundImage from '../components/BackgroundImage';
 import AppButton from '../components/AppButton';
 import { Card } from 'react-native-elements';
@@ -62,15 +62,15 @@ export default class Register extends Component {
 
         if (this.validate) {
             firebase.auth().createUserWithEmailAndPassword(
-                this.validate.email,this.validate.password
+                this.validate.email, this.validate.password
             )
-            .then(()=>{
-                Toast.showWithGravity("Registro correcto, Bienvenido", Toast.LONG, Toast.BOTTOM);
-            })
-            .catch(err =>{
-                Toast.showWithGravity(err.message, Toast.LONG, Toast.BOTTOM);
+                .then(() => {
+                    Toast.showWithGravity("Registro correcto, Bienvenido", Toast.LONG, Toast.BOTTOM);
+                })
+                .catch(err => {
+                    Toast.showWithGravity(err.message, Toast.LONG, Toast.BOTTOM);
 
-            })
+                })
         }
     }
     onChange(user) {
@@ -81,25 +81,27 @@ export default class Register extends Component {
     render() {
         return (
             <BackgroundImage source={require('../assets/images/fondo2.jpg')}>
-                <View>
+                <ScrollView>
                     <Card wrapperStyle={{ paddingLeft: 10 }} title="Registrate">
-                        <Form
-                            ref="form"
-                            type={this.user}
-                            options={this.options}
-                            onChange={(v) => this.onChange(v)}
-                            value={this.state.user}
-                        />
-                        <AppButton
-                            bgColor="red"
-                            title="Registrarme  "
-                            action={this.register.bind(this)}
-                            iconName="user-plus"
-                            iconSize={30}
-                            iconColor="#fff"
-                        />
+                            <KeyboardAvoidingView behavior='padding'>
+                                <Form
+                                    ref="form"
+                                    type={this.user}
+                                    options={this.options}
+                                    onChange={(v) => this.onChange(v)}
+                                    value={this.state.user}
+                                />
+                                <AppButton
+                                    bgColor="red"
+                                    title="Registrarme  "
+                                    action={this.register.bind(this)}
+                                    iconName="user-plus"
+                                    iconSize={30}
+                                    iconColor="#fff"
+                                />
+                            </KeyboardAvoidingView>
                     </Card>
-                </View>
+                </ScrollView>
             </BackgroundImage>
 
 

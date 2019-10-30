@@ -8,9 +8,9 @@ import LogoutScreen from "../screens/Logout";
 import DetailTurScreen from '../screens/Turs/DetailTur';
 import TurEspecificoScreen from '../screens/Turs/turEspecifico';
 import AddRegistroScreen from '../screens/Turs/AddRegistro';
-import HistorialScreen from '../screens/Turs/Historial'
-import HistorialEspecificoScreen from '../screens/historial/DetalleHistorial'
-import RegistroEspecificoScreen from '../screens/admin/RegistroEspecifico'
+import HistorialScreen from '../screens/Turs/Historial';
+import HistorialEspecificoScreen from '../screens/historial/DetalleHistorial';
+import RegistroEspecificoScreen from '../screens/admin/RegistroEspecifico';
 import { user } from '../App';//Usuario Actual user.email para el mail
 
 
@@ -145,6 +145,7 @@ const RootStack = createDrawerNavigator(
                 drawerIcon: ({ tintColor }) => (<Icon name="home" size={30} style={{ color: tintColor }} />),
             })
         },
+
         HistorialScreen: {
             screen: historialScreenStack,
             navigationOptions: ({ navigation }) => ({
@@ -173,4 +174,5 @@ const RootStack = createDrawerNavigator(
         defaultNavigationOptions: navigationOptions
     }
 )
+
 export default createAppContainer(RootStack)

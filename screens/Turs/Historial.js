@@ -19,6 +19,8 @@ export default class Historial extends Component {
     }
 
     componentDidMount() {
+        
+        
         if (user.email == 'hello@celebratechile.com') {
             this.refHistorial = firebase.database().ref().child('registros');
             this.refHistorial.on('value', snapshot => {
@@ -133,7 +135,14 @@ export default class Historial extends Component {
         if (!historial.length) {
             return (
                 <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
-                    <Text>No existe historial</Text>
+                    <Text></Text>
+                </BackgroundImage>
+            )
+        }
+        if(user.email=='publico@publico.com'){
+            return (
+                <BackgroundImage source={require('../../assets/images/fondo2.jpg')}>
+                    <Text></Text>
                 </BackgroundImage>
             )
         }

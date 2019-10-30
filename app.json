@@ -7,7 +7,7 @@
     "platforms": [
       "android"
     ],
-    "version": "1.0.1",
+    "version": "1.2.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -21,7 +21,7 @@
     "android": {
       "package": "com.utemsolutions.celebratechile",
       "permissions": [],
-      "versionCode": 2
+      "versionCode": 5
     }
   }
 }
